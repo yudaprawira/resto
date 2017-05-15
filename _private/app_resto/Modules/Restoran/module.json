@@ -1,0 +1,25 @@
+{
+    "name": "Restoran",
+    "alias": "restoran",
+    "description": "Mengelola Restoran",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\Restoran\\Providers\\SP"
+    ],
+    "aliases": [],
+    "files": [
+        "start.php"
+    ],
+    "requires": [],
+    "author": {
+        "name": "Yuda Prawira",
+        "site": "http:\/\/yuda.tk"
+    },
+    "info": {
+        "version": 1,
+        "date": "2017-04-20 06:14:09",
+        "changelog": ""
+    }
+}
