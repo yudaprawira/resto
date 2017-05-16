@@ -43,7 +43,7 @@
 	              <div class="page_single layout_fullwidth_padding">	
 	                <div class="description">{!! val($row, 'deskripsi') !!}</div>
 
-                  <ul class="simple_list">
+                  <ul class="simple_list box-gray">
                     @foreach( json_decode(val($row, 'type')) as $c)
                       <li>{{ trans('restoran::global.'.$c) }}  &nbsp; <span class="help-block inline">{{ trans('restoran::global.'.$c.'helper') }}</span></li>
                     @endforeach
@@ -85,10 +85,21 @@
                     @endforeach
                   </ul>
 
+                  <h3 class="title">Kontak</h3>  
+                  <ul class="features_list_detailed">
+                    @if( val($row, 'kontak_telepon') ) <li><i class="fa fa-phone"></i>{!! val($row, 'kontak_telepon') !!}</li> @endif
+                    @if( val($row, 'kontak_wa') ) <li><i class="fa fa-whtasapp"></i>{!! val($row, 'kontak_wa') !!}</li> @endif
+                    @if( val($row, 'kontak_bbm') ) <li><i class="fa fa-bbm"></i>{!! val($row, 'kontak_bbm') !!}</li> @endif
+                    @if( val($row, 'kontak_facebook') ) <li><i class="fa fa-facebook"></i>{!! val($row, 'kontak_facebook') !!}</li> @endif
+                    @if( val($row, 'kontak_twitter') ) <li><i class="fa fa-twitter"></i>{!! val($row, 'kontak_twitter') !!}</li> @endif
+                    @if( val($row, 'kontak_instagram') ) <li><i class="fa fa-instagram"></i>{!! val($row, 'kontak_instagram') !!}</li> @endif
+                  </ul>
+
                   <h3 class="title">Lokasi</h3>
                   <address>{{ val($row, 'alamat') }}, <span class="nowrap">Kode pos : {{ val($row, 'kodepos') }}</span>, {{ val($row, 'kecamatan') }}, {{ val($row, 'kota') }}, {{ val($row, 'provinsi') }}</address>
                   <div class="showMap" id="map-{{ val($row, 'url') }}" data-info="{{ val($row, 'nama') }}" data-lat="{{ val($row, 'lokasi_lat') }}" data-lng="{{ val($row, 'lokasi_lng') }}"></div>
 
+                  
          </div>
       
       </div>

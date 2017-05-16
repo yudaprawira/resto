@@ -41,6 +41,17 @@
             width: 100%;
             height: 300px;
         }
+        .box-gray{
+            background: #eee;
+            padding: 5px!important;
+            padding-bottom: 1px!important;
+            margin: 5px 0 20px!important;
+            color: #f20612;
+        }
+        .help-block {
+            font-size: 10px;
+            color: #b9b9b9;
+        }
     </style>
 	@stack('styles')
 </head>
