@@ -125,9 +125,9 @@ class BeController extends BaseController
 
         if ( $image && is_string($image) )
         {
-            $input['image'] = $image; $image = null;
+            $input['foto_utama'] = $image; $image = null;
         }
-
+        
         //multiple image & type
         $input['foto'] = isset($input['foto']) ? json_encode(array_filter($input['foto'])) : null;
         $input['type'] = isset($input['type']) ? json_encode(array_filter($input['type'])) : null;

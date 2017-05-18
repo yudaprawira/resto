@@ -25,9 +25,16 @@ class BeController extends BaseController
         if ( Request::isMethod('get') )
         {
             $this->dataView['form'] = $this->form();
+
+            $rows = Petugas::query();
+
+            if ( !Session::get('ses_is_superadmin') )
+            {
+                $rows->where('owner_id', Session::get('ses_switch_active'));
+            }
             
-            $this->dataView['countAll'] = Petugas::where('status', '<>', '-1')->count();
-            $this->dataView['countTrash'] = Petugas::where('status', '-1')->count();
+            $this->dataView['countAll'] = $rows->where('status', '<>', '-1')->count();
+            $this->dataView['countTrash'] = $rows->where('status', '-1')->count();
 
             $this->dataView['isTrash'] = $isTrash;
             

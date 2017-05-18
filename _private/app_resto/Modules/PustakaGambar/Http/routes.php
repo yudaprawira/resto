@@ -16,7 +16,7 @@ Route::group(['middleware' => 'web', 'prefix' => config('app.backend').'/'.$info
 
 
 //FRONT END
-Route::group(['middleware'=>'cached', 'prefix' => $info['alias'], 'namespace' => 'Modules\PustakaGambar\Http\Controllers'], function()
+Route::group(['middleware'=>'web', 'prefix' => $info['alias'], 'namespace' => 'Modules\PustakaGambar\Http\Controllers'], function()
 {
     Route::get('/', 'FeController@index');
     Route::get('/{url}.html', 'FeController@index')->where('url', '[a-z0-9\-\_\+]+');

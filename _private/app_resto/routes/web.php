@@ -97,4 +97,5 @@ Route::group(['middleware'=>'web', 'prefix' => '/'], function()
 });
 
 include_once __DIR__.'/../app/Helpers/core.php';
+include_once __DIR__.'/../app/Helpers/layout.php';
 include_once __DIR__.'/../app/Helpers/compress.php';

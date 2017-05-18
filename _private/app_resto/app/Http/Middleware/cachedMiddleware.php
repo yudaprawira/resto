@@ -7,6 +7,11 @@ use Closure;
 class cachedMiddleware
 {
     /**
+     * @var boolean
+     */
+    protected $isEnabled = false;
+
+    /**
      * @var int
      */
     protected $lifeTime = 7;//minute
@@ -27,9 +32,9 @@ class cachedMiddleware
     {
         $this->request = $request;
         
-        $this->removeGarbage();
+        if($this->isEnabled) $this->removeGarbage();
 
-        return $this->getResponse($next);
+        return $this->isEnabled ? $this->getResponse($next) : $next($request);
     }
 
     protected function getResponse(Closure $next) 
@@ -86,7 +91,7 @@ class cachedMiddleware
             foreach( $dirs as $d )
             {
                 $dir = glob($d.'/*');
-                if ( empty($dir) && is_dir($d) ) rmdir($d);
+                if ( empty($dir) && is_dir($d) ) @rmdir($d);
             }
         }
     }

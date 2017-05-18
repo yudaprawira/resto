@@ -727,7 +727,7 @@ max-width:55%;
 /*===============================================*/
 /* 7. PAGES LAYOUT GENERAL */
 /*===============================================*/	
-.homepage{
+.homepage, .pagename{
 background-image:url(../jpg/bg.jpg);
 width:100%;
 -webkit-background-size: 100%; 
@@ -740,7 +740,7 @@ background-size: 100%;
 background-size: cover;
 background-position:center center;
 }
-.homepagecontent{
+.homepagecontent, .pagecontent{
 background:url(../png/trans_darkblack.png) repeat;
 }
 #pages_maincontent{

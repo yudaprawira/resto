@@ -23,8 +23,16 @@ class BeController extends BaseController
     {
         if ( Request::isMethod('get') )
         {
-            $this->dataView['countAll'] = PustakaGambar::where('status', '<>', '-1')->count();
-            $this->dataView['countTrash'] = PustakaGambar::where('status', '-1')->count();
+            
+            $rows = PustakaGambar::query();
+
+            if ( !Session::get('ses_is_superadmin') )
+            {
+                $rows->where('owner_id', Session::get('ses_switch_active'));
+            }
+
+            $this->dataView['countAll'] = $rows->where('status', '<>', '-1')->count();
+            $this->dataView['countTrash'] = $rows->where('status', '-1')->count();
 
             $this->dataView['isTrash'] = $isTrash;
 
@@ -40,7 +48,7 @@ class BeController extends BaseController
             }
 
             $this->dataView['form'] = $this->form();
-            $this->dataView['rows'] = $this->_getRowImage(12, $isTrash);
+            $this->dataView['rowImages'] = $this->_getRowImage(12, $isTrash);
             $this->dataView['kategori'] = getRowArray($rowCategory->orderBy('kategori', 'ASC')->distinct()->get(),'kategori','kategori');
             
             return view('pustakagambar::index', $this->dataView);

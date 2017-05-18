@@ -56,57 +56,59 @@
             </div>
           </div>
         </div>
+        
     </div>
 
     <div class="box" style="background: none;box-shadow: none;border: none;">
         <div class="box-body no-padding">
             <div class="row-fluid" style="margin-left: -5px;margin-right: -5px;">
-            @if (!empty($rows))
-            @foreach( $rows as $r )
+            @if (!empty($rowImages))
+            @foreach( $rowImages as $rImg )
               <div class="col-md-3 item">
                 <div class="item-inner">
-                  <div class="img" style="background:url({{imgUrl($r->image)}}) 50% 50% no-repeat; cursor: pointer;" data-toggle="modal" data-target="#modalPreview-{{$r->id}}"></div>
+                  <div class="img" style="background:url({{imgUrl($rImg->image)}}) 50% 50% no-repeat; cursor: pointer;" data-toggle="modal" data-target="#modalPreview-{{$rImg->id}}"></div>
                   <div class="text">
-                    <p class="keterangan">{{ $r->keterangan }} {!! $r->copyright ? '<span class="nowrap"> '.$r->copyright.' </span>' : '' !!}</p>
-                    <p class="kategori">{{ $r->kategori }}</p>
+                    <p class="keterangan">{{ $rImg->keterangan }} {!! $rImg->copyright ? '<span class="nowrap"> '.$rImg->copyright.' </span>' : '' !!}</p>
+                    <p class="kategori">{{ $rImg->kategori }}</p>
                   </div>
                   <div class="text-center" style="margin: 5px -8px -35px -6px;">
                     <div class="button btn-group btn-block" role="group">
                       @if ($isTrash)
-                      <button type="button" class="btn btn-sm btn-flat btn-default btn-copy" data-text="{{imgUrl($r->image)}}" style="width: 61%;" title="Salin Alamat URL"><i class="fa fa-copy"></i> Salin URL</button>
-                      <a href="{{ BeUrl(config('pustakagambar.info.alias').'/edit/'.$r->id) }}" class="btn btn-sm btn-flat btn-primary btn-edit" style="width: 13%;" title="Edit"><i class="fa fa-pencil"></i></a>
-                      <button type="button" data-toggle="modal" data-target="#modalConfirmationRestore-{{$r->id}}" data-backdrop="static" class="btn btn-sm btn-flat btn-info" style="width: 13%;" title="Restore"><i class="fa fa-share-square-o"></i></button>
-                      <button type="button" data-toggle="modal" data-target="#modalConfirmation-{{$r->id}}" data-backdrop="static" class="btn btn-sm btn-flat btn-danger" style="width: 13%;" title="Hapus"><i class="fa fa-trash"></i></button>
+                      <button type="button" class="btn btn-sm btn-flat btn-default btn-copy" data-text="{{imgUrl($rImg->image)}}" style="width: 61%;" title="Salin Alamat URL"><i class="fa fa-copy"></i> Salin URL</button>
+                      <a href="{{ BeUrl(config('pustakagambar.info.alias').'/edit/'.$rImg->id) }}" class="btn btn-sm btn-flat btn-primary btn-edit" style="width: 13%;" title="Edit"><i class="fa fa-pencil"></i></a>
+                      <button type="button" data-toggle="modal" data-target="#modalConfirmationRestore-{{$rImg->id}}" data-backdrop="static" class="btn btn-sm btn-flat btn-info" style="width: 13%;" title="Restore"><i class="fa fa-share-square-o"></i></button>
+                      <button type="button" data-toggle="modal" data-target="#modalConfirmation-{{$rImg->id}}" data-backdrop="static" class="btn btn-sm btn-flat btn-danger" style="width: 13%;" title="Hapus"><i class="fa fa-trash"></i></button>
                       @else
-                      <button type="button" class="btn btn-sm btn-flat btn-default btn-copy" data-text="{{imgUrl($r->image)}}" style="width: 74%;" title="Salin Alamat URL"><i class="fa fa-copy"></i> Salin URL</button>
-                      <a href="{{ BeUrl(config('pustakagambar.info.alias').'/edit/'.$r->id) }}" class="btn btn-sm btn-flat btn-primary btn-edit" style="width: 13%;" title="Edit"><i class="fa fa-pencil"></i></a>
-                      <button type="button" data-toggle="modal" data-target="#modalConfirmation-{{$r->id}}" data-backdrop="static" class="btn btn-sm btn-flat btn-danger" style="width: 13%;" title="Hapus"><i class="fa fa-trash"></i></button>
+                      <button type="button" class="btn btn-sm btn-flat btn-default btn-copy" data-text="{{imgUrl($rImg->image)}}" style="width: 74%;" title="Salin Alamat URL"><i class="fa fa-copy"></i> Salin URL</button>
+                      <a href="{{ BeUrl(config('pustakagambar.info.alias').'/edit/'.$rImg->id) }}" class="btn btn-sm btn-flat btn-primary btn-edit" style="width: 13%;" title="Edit"><i class="fa fa-pencil"></i></a>
+                      <button type="button" data-toggle="modal" data-target="#modalConfirmation-{{$rImg->id}}" data-backdrop="static" class="btn btn-sm btn-flat btn-danger" style="width: 13%;" title="Hapus"><i class="fa fa-trash"></i></button>
                       @endif
                     </div>
                   </div>
                 </div>
               </div>
+
               <!-- Modal -->
-              <div class="modal fade modalConfirmation" id="modalConfirmation-{{$r->id}}" tabindex="-1" role="dialog" aria-labelledby="modalConfirmation-{{$r->id}}-Label" aria-hidden="true">
+              <div class="modal fade modalConfirmation" id="modalConfirmation-{{$rImg->id}}" tabindex="-1" role="dialog" aria-labelledby="modalConfirmation-{{$rImg->id}}-Label" aria-hidden="true">
                 <div class="modal-dialog">
                   <div class="modal-content box">
                     <div class="modal-header">
                       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                      <h4 class="modal-title" id="modalConfirmation-{{$r->id}}-Label">{{ trans('global.confirm_del') }}</h4>
+                      <h4 class="modal-title" id="modalConfirmation-{{$rImg->id}}-Label">{{ trans('global.confirm_del') }}</h4>
                     </div>
                     <div class="modal-body">
                       @if ($isTrash)
-                        {!! trans('global.confirm_text_permanent', ['name'=>$r->keterangan]) !!}
+                        {!! trans('global.confirm_text_permanent', ['name'=>$rImg->keterangan]) !!}
                       @else
-                        {!! trans('global.confirm_text', ['name'=>$r->keterangan]) !!}
+                        {!! trans('global.confirm_text', ['name'=>$rImg->keterangan]) !!}
                       @endif
                       <div class="text-center">
-                        <img src="{{imgUrl($r->image)}}" style="max-width: 200px;"/>
+                        <img src="{{imgUrl($rImg->image)}}" style="max-width: 200px;"/>
                       </div>
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-default btn-flat" data-dismiss="modal">{{ trans('global.act_close') }}</button>
-                      <a href="{{ BeUrl(config('pustakagambar.info.alias').'/delete/'.$r->id.($isTrash ? '?permanent=1' : '')) }}" class="btn btn-danger btn-flat btn-delete">{{ trans('global.delete') }}</a>
+                      <a href="{{ BeUrl(config('pustakagambar.info.alias').'/delete/'.$rImg->id.($isTrash ? '?permanent=1' : '')) }}" class="btn btn-danger btn-flat btn-delete">{{ trans('global.delete') }}</a>
                     </div>
                     
                     <div class="overlay delete-loding" style="display: none;">
@@ -115,35 +117,9 @@
                   </div>
                 </div>
               </div>
-              <!-- Modal Restore -->
-              <div class="modal fade modalConfirmation" id="modalConfirmationRestore-{{$r->id}}" tabindex="-1" role="dialog" aria-labelledby="modalConfirmationRestore-{{$r->id}}-Label" aria-hidden="true">
-                <div class="modal-dialog">
-                  <div class="modal-content box">
-                    <div class="modal-header">
-                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                      <h4 class="modal-title" id="modalConfirmationRestore-{{$r->id}}-Label">{{ trans('global.confirm_res') }}</h4>
-                    </div>
-                    <div class="modal-body">
-                      
-                      {!! trans('global.confirm_rest', ['name'=>$r->keterangan]) !!}
 
-                      <div class="text-center">
-                        <img src="{{imgUrl($r->image)}}" style="max-width: 200px;"/>
-                      </div>
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-default btn-flat" data-dismiss="modal">{{ trans('global.act_close') }}</button>
-                      <a href="{{ BeUrl(config('pustakagambar.info.alias').'/restore/'.$r->id) }}" class="btn btn-info btn-flat btn-delete">{{ trans('global.restore') }}</a>
-                    </div>
-                    
-                    <div class="overlay delete-loding" style="display: none;">
-                        <i class="fa fa-refresh fa-spin"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- Modal Preview-->
-              <div class="modal fade modalPreview" id="modalPreview-{{$r->id}}" tabindex="-1" role="dialog" aria-labelledby="modalPreview-{{$r->id}}-Label" aria-hidden="true">
+              <!-- Modal Preview -->
+              <div class="modal fade modalPreview" id="modalPreview-{{$rImg->id}}" tabindex="-1" role="dialog" aria-labelledby="modalPreview-{{$rImg->id}}-Label" aria-hidden="true">
                 <div class="modal-dialog">
                   <div class="modal-content box">
                     <div class="modal-header" style="border: none;">
@@ -153,17 +129,43 @@
                       <div class="row">
                         <div class="col-md-8">
                           <div class="text-center">
-                            <img src="{{imgUrl($r->image)}}" style="width: 100%;"/>
+                            <img src="{{imgUrl($rImg->image)}}" style="width: 100%;"/>
                           </div>
                         </div>
                         <div class="col-md-4 no-padding">
                           <table class="table">
-                            <tr><th>{{ trans('pustakagambar::global.copyright') }}</th><td>{{$r->copyright}}</td></tr>
-                            <tr><th>{{ trans('pustakagambar::global.kategori') }}</th><td>{{$r->kategori}}</td></tr>
-                            <tr><th>{{ trans('pustakagambar::global.keterangan') }}</th><td>{{$r->keterangan}}</td></tr>
+                            <tr><th>{{ trans('pustakagambar::global.copyright') }}</th><td>{{$rImg->copyright}}</td></tr>
+                            <tr><th>{{ trans('pustakagambar::global.kategori') }}</th><td>{{$rImg->kategori}}</td></tr>
+                            <tr><th>{{ trans('pustakagambar::global.keterangan') }}</th><td>{{$rImg->keterangan}}</td></tr>
                           </table>
                         </div>
                       </div>
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+              
+              @if ($isTrash)
+              <!-- Modal Restore  -->
+              <div class="modal fade modalConfirmation" id="modalConfirmationRestore-{{$rImg->id}}" tabindex="-1" role="dialog" aria-labelledby="modalConfirmationRestore-{{$rImg->id}}-Label" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content box">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                      <h4 class="modal-title" id="modalConfirmationRestore-{{$rImg->id}}-Label">{{ trans('global.confirm_res') }}</h4>
+                    </div>
+                    <div class="modal-body">
+                      
+                      {!! trans('global.confirm_rest', ['name'=>$rImg->keterangan]) !!}
+
+                      <div class="text-center">
+                        <img src="{{imgUrl($rImg->image)}}" style="max-width: 200px;"/>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-default btn-flat" data-dismiss="modal">{{ trans('global.act_close') }}</button>
+                      <a href="{{ BeUrl(config('pustakagambar.info.alias').'/restore/'.$rImg->id) }}" class="btn btn-info btn-flat btn-delete">{{ trans('global.restore') }}</a>
                     </div>
                     
                     <div class="overlay delete-loding" style="display: none;">
@@ -172,14 +174,17 @@
                   </div>
                 </div>
               </div>
+              @endif
+              
             @endforeach
             @endif
+            </div>
             <div class="clearfix"></div>
-            <div class="text-center">{!! $rows->appends(Input::except('page'))->render() !!}</div>
+            <div class="text-center">{!! $rowImages->appends(Input::except('page'))->render() !!}</div>
           </div>
         </div><!-- /.box-body -->
     </div>
-@stop
+@endsection
 @push('style')
 <style>
 .btn-add{
