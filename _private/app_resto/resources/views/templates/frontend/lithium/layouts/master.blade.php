@@ -52,6 +52,10 @@
             font-size: 10px;
             color: #b9b9b9;
         }
+        .main-nav ul li img {
+            display: inline-block!important;
+            max-width: 20%!important;
+        }
     </style>
 	@stack('styles')
 </head>
@@ -120,7 +124,7 @@
               <ul class="toolbar_icons">
               <li><a href="#" data-panel="right" class="open-panel"><img src="{{ $pub_url }}/png/user.png" alt="" title="" /></a></li>
               <li><a href="#" data-popup=".popup-social" class="open-popup"><img src="{{ $pub_url }}/png/love-2.png" alt="" title="" /></a></li>
-              <li class="menuicon"><a href="contact.html"><img src="{{ $pub_url }}/png/contact.png" alt="" title="" /></a></li>
+              <li class="menuicon"><a href="/" id="toolbarHome"><img src="{{ $pub_url }}/png/home.png" alt="" title="" /></a></li>
               <li><a href="#" data-popup=".popup-social" class="open-popup"><img src="{{ $pub_url }}/png/twitter.png" alt="" title="" /></a></li>
               <li><a href="tel:123456789" class="external"><img src="{{ $pub_url }}/png/phone.png" alt="" title="" /></a></li>
               </ul>
@@ -213,7 +217,7 @@
     </div>
     
 <script type="text/javascript" src="{{ $pub_url }}/js/jQuery-2.1.4.min.js"></script>
-<script type="text/javascript" src="//maps.google.com/maps?file=api&amp;v=2&amp;key={{ config('app.map.key') }}"></script>
+<script type="text/javascript" src="//maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&key={{ config('app.map.key') }}&language=id"></script>
 <script type="text/javascript" src="{{ $pub_url }}/js/jquery.validate.min.js" ></script>
 <script type="text/javascript" src="{{ $pub_url }}/js/framework7.js"></script>
 <script type="text/javascript" src="{{ $pub_url }}/js/jquery.swipebox.js"></script>
@@ -223,6 +227,12 @@
 <script type="text/javascript" src="{{ $pub_url }}/js/readmore.min.js"></script>
 <script type="text/javascript" src="{{ $pub_url }}/js/my-app.js"></script>
 
+<script>
+if(window.location.href.indexOf('#!')<=0)
+{
+    window.location.href = "{{FeUrl("current")}}";
+}
+</script>
 
 <!-- Java Script -->		
 @stack('scripts')

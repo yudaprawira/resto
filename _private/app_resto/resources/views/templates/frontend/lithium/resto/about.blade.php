@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="pages">
-  <div data-page="about" class="page no-toolbar no-navbar">
+  <div data-page="about" class="page no-navbar">
     <div class="page-content">
     
 	<div class="navbarpages">
@@ -96,15 +96,19 @@
                   </ul>
 
                   <h3 class="title">Lokasi</h3>
-                  <address>{{ val($row, 'alamat') }}, <span class="nowrap">Kode pos : {{ val($row, 'kodepos') }}</span>, {{ val($row, 'kecamatan') }}, {{ val($row, 'kota') }}, {{ val($row, 'provinsi') }}</address>
+                  <address style="margin-bottom: 15px;">{{ val($row, 'alamat') }}</address>
                   <div class="showMap" id="map-{{ val($row, 'url') }}" data-info="{{ val($row, 'nama') }}" data-lat="{{ val($row, 'lokasi_lat') }}" data-lng="{{ val($row, 'lokasi_lng') }}"></div>
-
+                  <br/><br/>
+                  <br/><br/>
                   
          </div>
-      
+      <span id="setToolBar"
+        data-home="{{ 'kuliner/'.val($row, 'url') }}"
+      ></span>
       </div>
       
       
+    
     </div>
   </div>
 </div>

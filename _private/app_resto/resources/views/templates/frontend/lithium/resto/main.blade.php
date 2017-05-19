@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="pages">
-  <div data-page="about" class="page pagename">
+  <div data-page="about" class="page pagename" style="background-image:url({{ $pub_url }}/jpg/bg-kuliner.jpeg);">
     <div class="page-content pagecontent">
     
 	<div class="navbarpages">
@@ -42,7 +42,10 @@
 
               <nav class="main-nav">
 									<ul>
-                    <li class="navbg10"><a href="{{ 'kuliner/'.val($row, 'url').'/about' }}" class="{{getClassBgTrans()}}"><img src="{{ $pub_url }}/png/info.png" alt="" title="" /><span>INFO</span></a></li>
+                    <li class="navbg10" style="background-image:url({{ $pub_url }}/jpg/lokasi.jpeg);"><a href="{{ 'kuliner/'.val($row, 'url').'/about' }}" class="navbgtransblack"><img src="{{ $pub_url }}/png/info.png" alt="" title="" /><span>INFO</span></a></li>
+                    <li class="navbg10" style="background-image:url({{ $pub_url }}/jpg/scan.jpeg);"><a href="{{ 'kuliner/'.val($row, 'url').'/scan' }}" class="navbgtransblack"><img src="{{ $pub_url }}/png/icon-qrcode.png" alt="" title="" /><span>SCAN QRCODE</span></a></li>
+                    <li class="navbg10" style="background-image:url({{ $pub_url }}/jpg/bg-kuliner.jpeg);"><a href="{{ 'kuliner/'.val($row, 'url').'/menu' }}" class="navbgtransblack"><img src="{{ $pub_url }}/png/icon-kuliner.png" alt="" title="" /><span>DAFTAR MENU</span></a></li>
+                    <li class="navbg10" style="background-image:url({{ $pub_url }}/jpg/menu.png);"><a href="{{ 'kuliner/'.val($row, 'url').'/pesanan' }}" class="navbgtransblack"><img src="{{ $pub_url }}/png/daftar-pesanan.png" alt="" title="" /><span>DAFTAR PESANAN</span></a></li>
 									</ul>
 							</nav>
 			            

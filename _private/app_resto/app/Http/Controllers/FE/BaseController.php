@@ -36,7 +36,7 @@ class BaseController extends Controller
             'title'  => trans('global.dashboard').' | '.config('app.title'),
             'notif'  => $this->_buildNotification(),
             'path'   => $this->currentPath,
-            'pub_url'=> url(str_replace('.', '/', config('app.template'))),
+            'pub_url'=> url(str_replace('.', '/', config('app.template')))
         ];
         
     }

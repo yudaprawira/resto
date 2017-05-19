@@ -17,7 +17,16 @@ function BeUrl($path='')
 */
 function FeUrl($path='')
 {
-    return config('app.fe_url').($path ? ( $path=='/' ? '' : '/'.$path ) : '');
+    if ( $path=="current" )
+    {
+        $temp_ = str_replace('#!', '', config('app.fe_url'));
+
+        return str_replace($temp_, config('app.fe_url'), Request::url());
+    }
+    else
+    {
+        return config('app.fe_url').($path ? ( $path=='/' ? '' : '/'.$path ) : '');
+    }
 }
 
 /*

@@ -37,16 +37,24 @@ $$(document).on('pageInit', function (e) {
 			$("label.error").hide();
 		});
 
+		//READMORE
 		$('.description').readmore({
 			moreLink: '<a href="#" class="link-more">Selengkapnya</a>',
 			lessLink: ''
 		});
 
+		//MAP
 		if( $('.showMap').length>0 )
 		{
 			$('.showMap').each(function(){
 				initMap($(this));
 			});
+		}
+
+		//TOOLBAR
+		if ( $('#setToolBar').length>0 )
+		{
+			initToolBar($('#setToolBar'));
 		}
 	
 })
@@ -219,17 +227,62 @@ myApp.onPageInit('photos', function (page) {
 	});	
 });
 
+//ToolBar
+function initToolBar(el)
+{
+	$('#toolbarHome').attr('href', el.data('home'));
+}
+
 function initMap(target)
 {
-	var map = new GMap2(document.getElementById(target.attr('id'))); 
-	var lokasi = new GLatLng(target.data('lat'),target.data('lng')); 
-	map.setCenter(lokasi, 16); 
+	 var map = new google.maps.Map(
+        document.getElementById(target.attr('id')), {
+          center: new google.maps.LatLng(target.data('lat'), target.data('lng')),
+          zoom: 16,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+      });
 
-	// Create a marker
-	var marker = new GMarker(lokasi)
-	// Add the marker to the map	
-	map.addOverlay(marker);
+      var marker = new google.maps.Marker({
+            position: new google.maps.LatLng(target.data('lat'), target.data('lng')),
+            map: map
+      });
 
-    // And open some infowindow, with some HTML text in it
-    marker.openInfoWindowHtml(target.data('info'));
+	  var infowindow = new google.maps.InfoWindow({
+          content: target.data('info')
+      });
+
+	  infowindow.open(map, marker);
+
+	  marker.addListener('click', function() {
+          infowindow.open(map, marker);
+      });
+
+	  	//get location
+		/*if (navigator.geolocation) {
+			var currentPosition = null;
+			navigator.geolocation.getCurrentPosition(function(position) {
+
+				var directionsDisplay = new google.maps.DirectionsRenderer;
+		        var directionsService = new google.maps.DirectionsService;
+				directionsDisplay.setMap(map);
+
+				
+				directionsService.route({
+				origin: {lat: position.coords.latitude, lng: position.coords.longitude},
+				destination: {lat: target.data('lat'), lng: target.data('lng')},
+				// Note that Javascript allows us to access the constant
+				// using square brackets and a string value as its
+				// "property."
+				travelMode: google.maps.TravelMode['DRIVING']
+				}, function(response, status) {
+				if (status == 'OK') {
+					directionsDisplay.setDirections(response);
+				} else {
+					window.alert('Directions request failed due to ' + status);
+				}
+				});
+
+			});
+		}*/
+	  
 }
