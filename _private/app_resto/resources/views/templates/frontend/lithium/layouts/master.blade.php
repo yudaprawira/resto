@@ -20,6 +20,7 @@
 	<link rel="stylesheet" href="{{ $pub_url }}/css/style.css">
 	<link type="text/css" rel="stylesheet" href="{{ $pub_url }}/css/swipebox.css" />
 	<link type="text/css" rel="stylesheet" href="{{ $pub_url }}/css/animations.css" />
+    <link rel="stylesheet" href="{{ asset('/global/css/social-buttons.css') }}"/>
 	<link href='http://fonts.googleapis.com/css?family=Roboto:400,300,900' rel='stylesheet' type='text/css'>
     <style>
     .link-more {
@@ -90,24 +91,12 @@
 
     <div class="panel panel-right panel-reveal">
       <div class="user_login_info">
-	  
-		<div class="user_thumb">
-		<img src="{{ $pub_url }}/jpg/page_photo2.jpg" alt="" title="" />
-			<div class="user_details">
-			<p>Welcome, <span>Alexia Doe</span></p>
-			</div>  
-			<div class="user_avatar"><img src="{{ $pub_url }}/jpg/avatar3.jpg" alt="" title="" /></div>       
-		</div>
-		
 		<nav class="user-nav">
-			<ul>
-				<li><a href="features.html" class="close-panel"><img src="{{ $pub_url }}/png/settings.png" alt="" title="" /><span>Account Settings</span></a></li>
-				<li><a href="features.html" class="close-panel"><img src="{{ $pub_url }}/png/briefcase.png" alt="" title="" /><span>My Account</span></a></li>
-				<li><a href="features.html" class="close-panel"><img src="{{ $pub_url }}/png/message.png" alt="" title="" /><span>Messages</span><strong>12</strong></a></li>
-				<li><a href="features.html" class="close-panel"><img src="{{ $pub_url }}/png/love.png" alt="" title="" /><span>Favorites</span><strong>5</strong></a></li>
-				<li><a href="index-2.html" class="close-panel"><img src="{{ $pub_url }}/png/lock.png" alt="" title="" /><span>Logout</span></a></li>
-			</ul>
+            <ul>
+			    <li><a href="#" data-popup=".popup-login" class="open-popup close-panel"><img src="{{ $pub_url }}/png/lock.png" alt="" title=""><span>Login</span></a></li>
+            </ul>
 		</nav>
+        
       </div>
     </div>
 
@@ -116,6 +105,7 @@
       <div class="view view-main">
 
 	  	{!! $notif !!} 
+          
 		@yield('content')
 
         <!-- Bottom Toolbar-->
@@ -133,71 +123,6 @@
 
       </div>
     </div>
-
-	
-    <!-- Login Popup -->
-    <div class="popup popup-login">
-        <div class="content-block">
-            <h4>LOGIN</h4>
-            <div class="loginform">
-                <form id="LoginForm" method="post">
-                    <input type="text" name="Username" value="" class="form_input required" placeholder="username" />
-                    <input type="password" name="Password" value="" class="form_input required" placeholder="password" />
-                    <div class="forgot_pass"><a href="#" data-popup=".popup-forgot" class="open-popup">Forgot Password?</a></div>
-                    <input type="submit" name="submit" class="form_submit" id="submit" value="SIGN IN" />
-                </form>
-                <div class="signup_bottom">
-                    <p>Don't have an account?</p>
-                    <a href="#" data-popup=".popup-signup" class="open-popup">SIGN UP</a>
-                </div>
-            </div>
-            <div class="close_popup_button">
-                <a href="#" class="close-popup"><img src="{{ $pub_url }}/png/menu_close.png" alt="" title="" /></a>
-            </div>
-        </div>
-    </div>
-
-    <!-- Register Popup -->
-    <div class="popup popup-signup">
-        <div class="content-block">
-            <h4>REGISTER</h4>
-            <div class="loginform">
-                <form id="RegisterForm" method="post">
-                    <input type="text" name="Username" value="" class="form_input required" placeholder="Username" />
-                    <input type="text" name="Email" value="" class="form_input required" placeholder="Email" />
-                    <input type="password" name="Password" value="" class="form_input required" placeholder="Password" />
-                    <input type="submit" name="submit" class="form_submit" id="submit" value="SIGN UP" />
-                </form>
-		<h5>- OR REGISTER WITH A SOCIAL ACCOUNT -</h5>
-		<div class="signup_social">
-			<a href="http://www.facebook.com/" class="signup_facebook external">FACEBOOK</a>
-			<a href="http://www.twitter.com/" class="signup_twitter external">TWITTER</a>            
-		</div>		
-            </div>
-            <div class="close_popup_button">
-                <a href="#" class="close-popup"><img src="{{ $pub_url }}/png/menu_close.png" alt="" title="" /></a>
-            </div>
-        </div>
-    </div>
-	
-    <!-- Forgot Password Popup -->
-    <div class="popup popup-forgot">
-        <div class="content-block">
-            <h4>FORGOT PASSWORD</h4>
-            <div class="loginform">
-                <form id="ForgotForm" method="post">
-                    <input type="text" name="Email" value="" class="form_input required" placeholder="email" />
-                    <input type="submit" name="submit" class="form_submit" id="submit" value="RESEND PASSWORD" />
-                </form>
-                <div class="signup_bottom">
-                    <p>Check your email and follow the instructions to reset your password.</p>
-                </div>
-            </div>
-            <div class="close_popup_button">
-                <a href="#" class="close-popup"><img src="{{ $pub_url }}/png/menu_close.png" alt="" title="" /></a>
-            </div>
-        </div>
-    </div>
 	
     <!-- Social Icons Popup -->
     <div class="popup popup-social">
@@ -205,19 +130,69 @@
 		<h4>Social Share</h4>
 		<p>Share icons solution that allows you share and increase your social popularity.</p>
 		<ul class="social_share">
-		<li><a href="http://twitter.com/" class="external"><img src="{{ $pub_url }}/png/twitter-2.png" alt="" title="" /><span>TWITTER</span></a></li>
-		<li><a href="http://www.facebook.com/" class="external"><img src="{{ $pub_url }}/png/facebook.png" alt="" title="" /><span>FACEBOOK</span></a></li>
-		<li><a href="http://plus.google.com/" class="external"><img src="{{ $pub_url }}/png/gplus.png" alt="" title="" /><span>GOOGLE</span></a></li>
-		<li><a href="http://www.dribbble.com/" class="external"><img src="{{ $pub_url }}/png/dribbble.png" alt="" title="" /><span>DRIBBBLE</span></a></li>
-		<li><a href="http://www.linkedin.com/" class="external"><img src="{{ $pub_url }}/png/linkedin.png" alt="" title="" /><span>LINKEDIN</span></a></li>
-		<li><a href="http://www.pinterest.com/" class="external"><img src="{{ $pub_url }}/png/pinterest.png" alt="" title="" /><span>PINTEREST</span></a></li>
+		<li><a href="http://twitter.com/" id="url-share-twitter" class="external" target="_blank"><img src="{{ $pub_url }}/png/twitter-2.png" alt="" title="" /><span>TWITTER</span></a></li>
+		<li><a href="http://www.facebook.com/" id="url-share-facebook"  class="external" target="_blank"><img src="{{ $pub_url }}/png/facebook.png" alt="" title="" /><span>FACEBOOK</span></a></li>
+		<li><a href="http://plus.google.com/" id="url-share-google"  class="external" target="_blank"><img src="{{ $pub_url }}/png/gplus.png" alt="" title="" /><span>GOOGLE</span></a></li>
+		<li><a href="http://www.dribbble.com/" id="url-share-twitter"  class="external" target="_blank"><img src="{{ $pub_url }}/png/dribbble.png" alt="" title="" /><span>DRIBBBLE</span></a></li>
+		<li><a href="http://www.linkedin.com/" id="url-share-twitter"  class="external" target="_blank"><img src="{{ $pub_url }}/png/linkedin.png" alt="" title="" /><span>LINKEDIN</span></a></li>
+		<li><a href="http://www.pinterest.com/" id="url-share-twitter"  class="external" target="_blank"><img src="{{ $pub_url }}/png/pinterest.png" alt="" title="" /><span>PINTEREST</span></a></li>
 		</ul>
 		<div class="close_popup_button"><a href="#" class="close-popup"><img src="{{ $pub_url }}/png/menu_close.png" alt="" title="" /></a></div>
 		</div>
     </div>
+
+    <!-- LOGIN -->
+    <div class="popup popup-login">
+        <div class="content-block">
+            <h4>LOGIN</h4>
+            <div class="text-center" id="form-login" data-store="{{ url('membership/save') }}">
+                <h6>Silakan login untuk meanjutkan</h6>
+                <a hreff="#" id="btn-login-google">&nbsp;</a>
+                <a hreff="#" id="btn-login-facebook">&nbsp;</a>
+                <a hreff="#" id="btn-login-twitter">&nbsp;</a>
+            </div>
+            <div class="close_popup_button">
+                <a href="#" class="close-popup"><img src="{{ $pub_url }}/png/menu_close.png" alt="" title=""></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- MEJA -->
+    <div class="popup popup-meja">
+        <div class="content-block">
+            <h4>PILIH MEJA</h4>
+            <div class="size_selectors text-center">   
+                @for( $i=1;$i<=24; $i++ )             
+                <input id="meja-{{$i}}" name="meja" value="meja-{{$i}}" type="radio">  
+                <label for="meja-{{$i}}" style="margin: 5px; padding: 30px 18px;">Meja {{$i}}</label>
+                @endfor
+            </div>
+            <div class="close_popup_button">
+                <a href="#" class="close-popup"><img src="{{ $pub_url }}/png/menu_close.png" alt="" title=""></a>
+            </div>
+        </div>
+    </div>
+
     
+
 <script type="text/javascript" src="{{ $pub_url }}/js/jQuery-2.1.4.min.js"></script>
+<script type="text/javascript" src="{{ $pub_url }}/js/cookie.js"></script>
+
 <script type="text/javascript" src="//maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&key={{ config('app.map.key') }}&language=id"></script>
+<script src="https://www.gstatic.com/firebasejs/4.0.0/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyD_G_ZNknZvIsJHnh3SZjYRQaYhYA6_nu0",
+    authDomain: "kemanagitu-6f3aa.firebaseapp.com",
+    databaseURL: "https://kemanagitu-6f3aa.firebaseio.com",
+    projectId: "kemanagitu-6f3aa",
+    storageBucket: "kemanagitu-6f3aa.appspot.com",
+    messagingSenderId: "372322146671"
+  };
+  firebase.initializeApp(config);
+</script>
+
 <script type="text/javascript" src="{{ $pub_url }}/js/jquery.validate.min.js" ></script>
 <script type="text/javascript" src="{{ $pub_url }}/js/framework7.js"></script>
 <script type="text/javascript" src="{{ $pub_url }}/js/jquery.swipebox.js"></script>

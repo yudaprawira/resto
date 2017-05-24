@@ -19,4 +19,9 @@ class Restoran extends Model
         'kontak_bbm', 'kontak_telepon', 'kontak_wa', 'kontak_facebook', 'kontak_twitter', 'kontak_instagram', 
         'status', 'created_by', 'updated_by'
     ];
+
+    function menu()
+    {
+        return $this->hasMany('Modules\Menu\Models\Menu', 'pemilik_id', 'id');
+    }
 }

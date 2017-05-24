@@ -36,6 +36,15 @@ function FeUrl($path='')
 */
 function imgUrl($path, $size='')
 {
+
+    if ( $size )
+    {
+        $arrPath = explode('/', $path);
+        $arrPath_= explode('-', end($arrPath));
+        $oriSize = explode('.', end($arrPath_))[0];
+        $path    = str_replace($oriSize, $size, $path);
+    }
+
     return url('media/'.$path);
 }
 

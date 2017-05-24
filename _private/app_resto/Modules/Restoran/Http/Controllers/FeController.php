@@ -2,14 +2,10 @@
 
 namespace Modules\Restoran\Http\Controllers;
 
-use Redirect,
-    Illuminate\Http\Request,
-    Illuminate\Http\Response,
-    Illuminate\Routing\Controller,
-    Modules\Restoran\Models\Restoran,
-    App\Http\Controllers\FE\BaseController;
+use Modules\Restoran\Models\Restoran,
+    Modules\Restoran\Http\Controllers\RestoController;
 
-class FeController extends BaseController
+class FeController extends RestoController
 {
     /*
     |--------------------------------------------------------------------------
@@ -30,28 +26,20 @@ class FeController extends BaseController
     */
     public function detail($url)
     {
-        if ( $this->dataView['row'] = Restoran::where('url', $url)->first() )
-        {
-            $this->dataView['title'] = $this->dataView['row']->nama;
+        $this->dataResto($url);
 
-            return view($this->tmpl . 'resto.main', $this->dataView);
-        }
-        else return $this->page(404);
+        return view($this->tmpl . 'resto.main', $this->dataView);
     }
 
     /*
     |--------------------------------------------------------------------------
-    | About
+    | INFO
     |--------------------------------------------------------------------------
     */
     public function about($url)
     {
-        if ( $this->dataView['row'] = Restoran::where('url', $url)->first() )
-        {
-            $this->dataView['title'] = $this->dataView['row']->nama;
+        $this->dataResto($url);
 
-            return view($this->tmpl . 'resto.about', $this->dataView);
-        }
-        else return $this->page(404);
+        return view($this->tmpl . 'resto.about', $this->dataView);
     }
 }

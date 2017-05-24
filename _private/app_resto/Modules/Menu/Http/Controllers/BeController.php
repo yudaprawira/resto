@@ -27,11 +27,12 @@ class BeController extends BaseController
 
             if ( !Session::get('ses_is_superadmin') )
             {
-                $rows->where('owner_id', Session::get('ses_switch_active'));
+                $rows->where('pemilik_id', Session::get('ses_switch_active'));
             }
+            $rows_ = clone $rows;
 
             $this->dataView['countAll'] = $rows->where('status', '<>', '-1')->count();
-            $this->dataView['countTrash'] = $rows->where('status', '-1')->count();
+            $this->dataView['countTrash'] = $rows_->where('status', '-1')->count();
 
             $this->dataView['isTrash'] = $isTrash;
 
@@ -41,19 +42,13 @@ class BeController extends BaseController
         {
             $rows = $isTrash ? Menu::where('status', '-1') : Menu::where('status', '<>', '-1');
 
-            if ( val($_GET, 'filter-kategori') && val($_GET, 'filter-kategori')!='all' )
-            {
-                $rows->where('kategori', val($_GET, 'filter-kategori'));
-            }
-
             if ( !Session::get('ses_is_superadmin') )
             {
-                $rows->where('owner_id', Session::get('ses_switch_active'));
+                $rows->where('pemilik_id', Session::get('ses_switch_active'));
             }
-            
-            return Datatables::of($rows->with('kategori'))
+            return Datatables::of($rows->with('rel_kategori'))
             ->addColumn('action', function ($r) use ($isTrash) { return $this->_buildAction($r->id, $r->nama, 'default', $isTrash); })
-            ->editColumn('nama', function ($r) { return createLink( FeUrl('kuliner/'.val($this->activeState, 'url').'/'.$r->url.'.html'), $r->nama ); })
+            ->editColumn('nama', function ($r) { return createLink( FeUrl('kuliner/'.val($this->activeState, 'url').'/menu/'.$r->url.'.html'), $r->nama ); })
             ->editColumn('harga', function ($r) { return formatNumber($r->harga, 0, true); })
             ->editColumn('status', function ($r) { return $r->status=='1' ? trans('global.active') : trans('global.inactive'); })
             ->editColumn('created_at', function ($r) { return formatDate($r->created_at, 5); })
@@ -131,7 +126,7 @@ class BeController extends BaseController
         }
 
         //owner
-        $input['owner_id'] = session::get('ses_switch_active');
+        $input['pemilik_id'] = session::get('ses_switch_active');
         
         //multiple image
         $input['foto'] = isset($input['foto']) ? json_encode(array_filter($input['foto'])) : null;

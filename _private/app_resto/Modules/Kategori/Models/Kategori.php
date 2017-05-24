@@ -13,5 +13,5 @@ class Kategori extends Model
      */
     protected $table = 'mod_kategori';
 
-    protected $fillable = ['nama', 'url', 'owner_id', 'status', 'created_by', 'updated_by'];
+    protected $fillable = ['nama', 'url', 'pemilik_id', 'status', 'created_by', 'updated_by'];
 }

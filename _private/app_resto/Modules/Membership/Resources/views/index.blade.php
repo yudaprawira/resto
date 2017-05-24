@@ -6,10 +6,14 @@
             <div class="box">
                 <div class="box-header">
                   <h3 class="box-title">Data {{ config('membership.info.name') }} </h3>
-                  <a href="{{ BeUrl(config('membership.info.alias').'/add') }}" class="btn btn-primary btn-flat btn-add pull-right">{{ trans('global.add') }} {{ config('membership.info.name') }} </a>
+                  <div class="link-table-pane">
+                    <a href="{{ BeUrl(config('membership.info.alias')) }}" class="{{ $isTrash ? '' : 'active'}}">{{ trans('global.all') }} <span>({{$countAll}})</span></a> | 
+                    <a href="{{ BeUrl(config('membership.info.alias').'/trash') }}" class="{{ $isTrash ? 'active' : ''}}">{{ trans('global.trash') }} <span>({{$countTrash}})</span></a>
+                  </div>
+                  <a href="{{ BeUrl(config('membership.info.alias').'/add?'.time()) }}" class="btn btn-primary btn-flat btn-add pull-right">{{ trans('global.add') }} {{ config('membership.info.name') }} </a>
                 </div><!-- /.box-header -->
                 <div class="box-body no-padding">
-                  <table class="table table-striped table-bordered" id="list-table" data-url="{{ BeUrl(config('membership.info.alias')) }}" data-token="{{ csrf_token() }}" data-responsive="1" data-fixedheader="1">
+                  <table class="table table-striped table-bordered" id="list-table" data-url="{{ BeUrl(config('membership.info.alias').($isTrash ? '/trash' : '')) }}" data-token="{{ csrf_token() }}" data-responsive="1" data-fixedheader="1">
                     <thead>
                     <tr>
                       <th data-sort="1" data-search="1" data-column="id" style="width: 10px">ID</th>

@@ -28,11 +28,12 @@ class BeController extends BaseController
 
             if ( !Session::get('ses_is_superadmin') )
             {
-                $rows->where('owner_id', Session::get('ses_switch_active'));
+                $rows->where('pemilik_id', Session::get('ses_switch_active'));
             }
+            $rows_ = clone $rows;
 
             $this->dataView['countAll'] = $rows->where('status', '<>', '-1')->count();
-            $this->dataView['countTrash'] = $rows->where('status', '-1')->count();
+            $this->dataView['countTrash'] = $rows_->where('status', '-1')->count();
 
             $this->dataView['isTrash'] = $isTrash;
 
@@ -144,7 +145,7 @@ class BeController extends BaseController
         }
 
         //owner
-        $input['owner_id'] = session::get('ses_switch_active');
+        $input['pemilik_id'] = session::get('ses_switch_active');
 
         unset($input['_image']);
         unset($input['_token']);
@@ -165,7 +166,7 @@ class BeController extends BaseController
 
         $status = $this->_saveData( new PustakaGambar(), [   
             //VALIDATOR
-            "keterangan" => "required"
+            "keterangan" => "required",
         ], $input, 'keterangan');
 
         if ( $image )
@@ -218,7 +219,7 @@ class BeController extends BaseController
 
         if ( !Session::get('ses_is_superadmin') )
         {
-            $rows->where('owner_id', Session::get('ses_switch_active'));
+            $rows->where('pemilik_id', Session::get('ses_switch_active'));
         }
 
         if ( $isTrash )

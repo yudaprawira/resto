@@ -10,6 +10,7 @@ var myApp = new Framework7({
     template7Pages: true
 });
 
+
 // Export selectors engine
 var $$ = Dom7;
 
@@ -27,22 +28,32 @@ $(document).ready(function() {
 		$(".close-popup").click(function() {					  
 			$("label.error").hide();
 		});
+
+		authLogin();
+
+		shareButton();
 });
 
 $$(document).on('pageInit', function (e) {
-		$("#RegisterForm").validate();
-		$("#LoginForm").validate();
-		$("#ForgotForm").validate();
+		//$("#RegisterForm").validate();
+		//$("#LoginForm").validate();
+		//$("#ForgotForm").validate();
 		$(".close-popup").click(function() {					  
 			$("label.error").hide();
 		});
 
+		//TOOLBAR
+		if ( $('#setToolBar').length>0 )
+		{
+			initToolBar($('#setToolBar'));
+		}
+})
+myApp.onPageInit('about', function (page) {
 		//READMORE
 		$('.description').readmore({
 			moreLink: '<a href="#" class="link-more">Selengkapnya</a>',
 			lessLink: ''
-		});
-
+		});	
 		//MAP
 		if( $('.showMap').length>0 )
 		{
@@ -50,21 +61,6 @@ $$(document).on('pageInit', function (e) {
 				initMap($(this));
 			});
 		}
-
-		//TOOLBAR
-		if ( $('#setToolBar').length>0 )
-		{
-			initToolBar($('#setToolBar'));
-		}
-	
-})
-myApp.onPageInit('music', function (page) {
-		  audiojs.events.ready(function() {
-			var as = audiojs.createAll();
-		  });
-})
-myApp.onPageInit('videos', function (page) {
-		  $(".videocontainer").fitVids();
 })
 myApp.onPageInit('contact', function (page) {
 		$("#ContactForm").validate({
@@ -101,7 +97,7 @@ myApp.onPageInit('shop', function (page) {
 			if (!isNaN(currentVal)) {
 				$('input[name='+fieldName+']').val(currentVal + 1);
 			} else {
-				$('input[name='+fieldName+']').val(0);
+				$('input[name='+fieldName+']').val(1);
 			}
 			
 		});
@@ -109,38 +105,56 @@ myApp.onPageInit('shop', function (page) {
 			e.preventDefault();
 			var fieldName = $(this).attr('field');
 			var currentVal = parseInt($('input[name='+fieldName+']').val());
-			if (!isNaN(currentVal) && currentVal > 0) {
+			if (!isNaN(currentVal) && currentVal > 1) {
 				$('input[name='+fieldName+']').val(currentVal - 1);
 			} else {
-				$('input[name='+fieldName+']').val(0);
+				$('input[name='+fieldName+']').val(1);
 			}
 		});	
-  
-})
-myApp.onPageInit('shopitem', function (page) {
-		$(".swipebox").swipebox();	
-		$('.qntyplusshop').click(function(e){
-									  
+		$(".addtocart").click(function(e){
 			e.preventDefault();
-			var fieldName = $(this).attr('field');
-			var currentVal = parseInt($('input[name='+fieldName+']').val());
-			if (!isNaN(currentVal)) {
-				$('input[name='+fieldName+']').val(currentVal + 1);
-			} else {
-				$('input[name='+fieldName+']').val(0);
+
+			if ( !firebase.auth().currentUser )
+			{
+				myApp.popup('.popup-login');
 			}
-			
+			else if ( !readCookie('meja') )
+			{
+				myApp.popup('.popup-meja');
+			}
+			else
+			{
+				var postData = {
+					id: $(this).data('id'),
+					nama: $(this).data('nama'),
+					foto: $(this).data('foto'),
+					url: $(this).data('url'),
+					jumlah: $(this).closest('.shop_item_details').find('.qntyshop').val(),
+					status: 'pesan',
+				};
+				
+				//PESANAN
+				var type  = 'resto';
+				var resto = $(this).data('resto');
+				var user  = (firebase.auth().currentUser) ?  firebase.auth().currentUser.providerData[0].uid : null;
+				var table = type + '/' + resto + '/' + 'pesanan' + '/' + user;
+				
+				AddUpdateDate(table, postData);
+
+				/*//MEJA
+				var type  = 'resto';
+				var resto = $(this).data('resto');
+				var user  = (firebase.auth().currentUser) ?  firebase.auth().currentUser.providerData[0].uid : null;
+				var table = type + '/' + resto + '/' + 'meja';
+				
+				var postData = {
+					id: 'meja-1',
+					user: user,
+				};
+
+				AddUpdateDate(table, postData);*/
+			}
 		});
-		$(".qntyminusshop").click(function(e) {
-			e.preventDefault();
-			var fieldName = $(this).attr('field');
-			var currentVal = parseInt($('input[name='+fieldName+']').val());
-			if (!isNaN(currentVal) && currentVal > 0) {
-				$('input[name='+fieldName+']').val(currentVal - 1);
-			} else {
-				$('input[name='+fieldName+']').val(0);
-			}
-		});	
   
 })
 myApp.onPageInit('cart', function (page) {
@@ -227,12 +241,64 @@ myApp.onPageInit('photos', function (page) {
 	});	
 });
 
+function loading(status)
+{
+
+}
+
 //ToolBar
 function initToolBar(el)
 {
 	$('#toolbarHome').attr('href', el.data('home'));
 }
 
+//SHARE
+function shareButton()
+{
+	$(document).on('click', '.shopfav', function(){
+		var href = $(this).attr('href');
+		var title = $(this).attr('title');
+		var url_facebook = 'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(href);
+		var url_twitter = 'http://twitter.com/share?via=juarain&url='+encodeURIComponent(href)+'&text='+encodeURIComponent(title);
+		var url_google = 'https://plus.google.com/share?url='+encodeURIComponent(href);
+
+		$('#url-share-facebook').attr('href', url_facebook);
+		$('#url-share-twitter').attr('href', url_twitter);
+		$('#url-share-google').attr('href', url_google);
+	});
+}
+
+//LOGIN // Logout
+function authLogin()
+{
+	$(document).on('click', '#btn-login-google', function(){
+		authGoogle();
+		return false;
+	});
+
+	$(document).on('click', '#act-logout', function(){
+		firebase.auth().signOut();
+		window.location.reload();
+		return false;
+	});
+}
+function saveMember(type, data)
+{
+	$.ajax({
+		type		: 'POST',
+		url			: $('#form-login').data('store'),
+		data        : 'type='+type+'&data='+JSON.stringify(data),
+		beforeSend	: function(xhr) { loading(1) },
+		success		: function(dt){
+			if(dt) $('.user_login_info').replaceWith(dt);
+
+			myApp.closeModal('.popup-login');
+		},
+	}).done(function(){ loading(0) }); 
+}
+
+
+//MAP
 function initMap(target)
 {
 	 var map = new google.maps.Map(
@@ -285,4 +351,57 @@ function initMap(target)
 			});
 		}*/
 	  
+}
+
+
+/** REALTIME DATABASE **/
+function AddUpdateDate(table, postData) 
+{
+	var ref = firebase.database().ref().child(table);
+	var refMenuId = ref.orderByChild('id').equalTo(postData.id);
+	refMenuId.once('value', function (snapshot) {
+		if (snapshot.hasChildren()) 
+		{
+			snapshot.forEach(function (child) {
+				child.ref.update(postData);
+			});
+		} 
+		else 
+		{
+			snapshot.ref.push(postData);
+		}
+	});
+}
+function authGoogle()
+{
+	if (!firebase.auth().currentUser) 
+	{
+		var provider = new firebase.auth.GoogleAuthProvider();
+		
+		provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+
+		firebase.auth().signInWithPopup(provider).then(function(result) {
+		
+			var token = result.credential.accessToken;
+
+			var user = result.user;
+
+			saveMember('google', user);
+			
+		}).catch(function(error) {
+			var errorCode = error.code;
+			var errorMessage = error.message;
+			var email = error.email;
+			var credential = error.credential;
+			if (errorCode === 'auth/account-exists-with-different-credential') 
+			{
+				alert('You have already signed up with a different auth provider for that email.');
+			} 
+		});
+
+	} 
+	else 
+	{
+		saveMember('google', firebase.auth().currentUser);
+	}
 }

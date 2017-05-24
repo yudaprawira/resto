@@ -15,7 +15,7 @@ class Menu extends Model
 
     protected $fillable = ['nama', 'foto_utama', 'foto_info', 'foto', 'url', 'kategori', 'halal', 'harga', 'deskripsi', 'status', 'created_by', 'updated_by'];
 
-    function kategori()
+    function rel_kategori()
     {
         return $this->hasOne('\Modules\Kategori\Models\Kategori', 'id', 'kategori');
     }

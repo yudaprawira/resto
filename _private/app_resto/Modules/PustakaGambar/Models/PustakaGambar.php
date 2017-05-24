@@ -13,5 +13,5 @@ class PustakaGambar extends Model
      */
     protected $table = 'mod_pustakagambar';
 
-    protected $fillable = ['copyright', 'keterangan', 'owner_id', 'kategori', 'image', 'url', 'status', 'created_by', 'updated_by'];
+    protected $fillable = ['copyright', 'keterangan', 'pemilik_id', 'kategori', 'image', 'url', 'status', 'created_by', 'updated_by'];
 }

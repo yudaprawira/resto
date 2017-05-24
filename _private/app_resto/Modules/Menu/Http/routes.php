@@ -17,5 +17,6 @@ Route::group(['middleware' => 'web', 'prefix' => config('app.backend').'/'.$info
 //FRONT END
 Route::group(['middleware'=>'web', 'prefix' => 'kuliner', 'namespace' => 'Modules\Menu\Http\Controllers'], function()
 {
-    Route::get('/{resto}/{url}.html', 'FeController@detail')->where('resto', '[a-z0-9\-\_\+]+')->where('url', '[a-z0-9\-\_\+]+');
+    Route::get('/{resto}/menu', 'FeController@index')->where('resto', '[a-z0-9\-\_\+]+');
+    Route::get('/{resto}/menu/{url}.html', 'FeController@detail')->where('resto', '[a-z0-9\-\_\+]+')->where('url', '[a-z0-9\-\_\+]+');
 });

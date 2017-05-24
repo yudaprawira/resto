@@ -18,7 +18,7 @@
                     <tr>
                       <th data-sort="1" data-search="1" data-column="id" style="width: 10px">ID</th>
                       <th data-sort="1" data-search="1" data-column="nama">{{ trans('menu::global.nama') }}</th>
-                      <th data-sort="1" data-search="1" data-column="kategori.nama" class="col-md-1 nowrap">{{ trans('menu::global.kategori') }}</th>
+                      <th data-sort="0" data-search="1" data-column="rel_kategori.nama" class="col-md-1 nowrap">{{ trans('menu::global.kategori') }}</th>
                       <th data-sort="1" data-search="1" data-column="harga" class="col-md-1 nowrap">{{ trans('menu::global.harga') }}</th>
                       <th data-sort="1" data-search="1" data-column="status" class="col-md-1 nowrap">{{ trans('global.status') }}</th>
                       <th data-sort="1" data-search="1" data-column="created_at" class="col-md-1 nowrap">{{ trans('menu::global.created_at') }}</th>

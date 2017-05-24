@@ -23,4 +23,19 @@ function getRestoUser()
     
     return getRowArray($rows->get(), 'idr', '*');
 }
+
+
+/*
+|--------------------------------------------------------------------------
+| URL DETAIL MENU
+|--------------------------------------------------------------------------
+*/
+function urlMenu($rowResto, $rowMenu, $type=null)
+{
+    $url = 'kuliner/'.val($rowResto, 'url').'/menu/'.val($rowMenu, 'url').'.html';
+
+    return $type=='share' ? url($url) : $url;
+}
+
+
 ?>

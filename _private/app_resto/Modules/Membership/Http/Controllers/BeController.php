@@ -19,22 +19,34 @@ class BeController extends BaseController
     | Management Membership
     |--------------------------------------------------------------------------
     */
-    public function index()
+    public function index($isTrash=false)
     {
         if ( Request::isMethod('get') )
         {
+            $this->dataView['countAll'] = Membership::where('status', '<>', '-1')->count();
+            $this->dataView['countTrash'] = Membership::where('status', '-1')->count();
+
+            $this->dataView['isTrash'] = $isTrash;
+
             return view('membership::index', $this->dataView);
         }
         else
         {
-            return Datatables::of(Membership::query())
-            ->addColumn('action', function ($r) { return $this->_buildAction($r->id, $r->nama); })
+            $rows = $isTrash ? Membership::where('status', '-1') : Membership::where('status', '<>', '-1');
+
+            return Datatables::of($rows)
+            ->addColumn('action', function ($r) use ($isTrash) { return $this->_buildAction($r->id, $r->nama, 'default', $isTrash); })
             ->editColumn('nama', function ($r) { return createLink( url(config('membership.info.alias').'/'.$r->url.'.html'), $r->nama ); })
             ->editColumn('status', function ($r) { return $r->status=='1' ? trans('global.active') : trans('global.inactive'); })
             ->editColumn('created_at', function ($r) { return formatDate($r->created_at, 5); })
             ->editColumn('updated_at', function ($r) { return $r->updated_at ? formatDate($r->updated_at, 5) : '-'; })
             ->make(true);
         }
+    }
+
+    public function trash()
+    {
+        return $this->index(true);
     }
 
     /*
@@ -61,7 +73,20 @@ class BeController extends BaseController
     function delete($id)
     {
         return Response()->json([ 
-            'status' => $this->_deleteData(new Membership(), $id), 
+            'status' => $this->_deleteData(new Membership(), $id, (val($_GET, 'permanent')=='1' ? null : ['status'=>'-1'])), 
+            'message'=> $this->_buildNotification(true)
+        ]);
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Restore
+    |--------------------------------------------------------------------------
+    */
+    function restore($id)
+    {
+        return Response()->json([ 
+            'status' => $this->_deleteData(new Membership(), $id, ['status'=>'1']), 
             'message'=> $this->_buildNotification(true)
         ]);
     }
@@ -79,7 +104,12 @@ class BeController extends BaseController
         $input['status'] = val($input, 'status') ? 1 : 0;
 
         $image = isset($input['image']) ? $input['image'] : null; unset($input['image']);
-
+        
+        if ( $image && is_string($image) )
+        {
+            $input['image'] = $image; $image = null;
+        }
+        
         $status = $this->_saveData( new Membership(), [   
             //VALIDATOR
             "nama" => "required|unique:mod_membership". ($input['id'] ? ",nama,".$input['id'] : '')

@@ -29,11 +29,12 @@ class BeController extends BaseController
 
             if ( !Session::get('ses_is_superadmin') )
             {
-                $rows->where('owner_id', Session::get('ses_switch_active'));
+                $rows->where('pemilik_id', Session::get('ses_switch_active'));
             }
+            $rows_ = clone $rows;
 
             $this->dataView['countAll'] = $rows->where('status', '<>', '-1')->count();
-            $this->dataView['countTrash'] = $rows->where('status', '-1')->count();
+            $this->dataView['countTrash'] = $rows_->where('status', '-1')->count();
 
             $this->dataView['isTrash'] = $isTrash;
             
@@ -45,7 +46,7 @@ class BeController extends BaseController
 
             if ( !Session::get('ses_is_superadmin') )
             {
-                $rows->where('owner_id', Session::get('ses_switch_active'));
+                $rows->where('pemilik_id', Session::get('ses_switch_active'));
             }
             
             return Datatables::of($rows)
@@ -118,7 +119,7 @@ class BeController extends BaseController
         $input['status'] = val($input, 'status') ? 1 : 0;
 
         //owner
-        $input['owner_id'] = session::get('ses_switch_active');
+        $input['pemilik_id'] = session::get('ses_switch_active');
 
         $status = $this->_saveData( new Kategori(), [   
             //VALIDATOR

@@ -13,7 +13,7 @@ class Petugas extends Model
      */
     protected $table = 'user';
 
-    protected $fillable = ['username', 'email', 'image', 'owner_id', 'level_id', 'url', 'status', 'hash', 'password', 'created_by', 'updated_by'];
+    protected $fillable = ['username', 'email', 'image', 'pemilik_id', 'level_id', 'url', 'status', 'hash', 'password', 'created_by', 'updated_by'];
 
     function level ()
     {

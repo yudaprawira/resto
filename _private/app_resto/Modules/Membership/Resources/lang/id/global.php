@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'nama' => 'Nama Member',
+    'nama' => 'Nama',
     'image' => 'Gambar',
     'change_image' => 'Ganti Gambar',
     'created_at' => 'Dibuat Tanggal',

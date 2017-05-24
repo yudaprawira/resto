@@ -38,7 +38,6 @@ class BaseController extends Controller
             'path'   => $this->currentPath,
             'pub_url'=> url(str_replace('.', '/', config('app.template')))
         ];
-        
     }
     
     /*

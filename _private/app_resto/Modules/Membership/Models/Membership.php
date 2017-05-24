@@ -13,5 +13,5 @@ class Membership extends Model
      */
     protected $table = 'mod_membership';
 
-    protected $fillable = ['nama', 'image', 'url', 'status', 'created_by', 'updated_by'];
+    protected $fillable = ['google_id', 'facebook_id', 'twitter_id', 'nama', 'image', 'email', 'telepon', 'alamat', 'url', 'status', 'created_by', 'updated_by'];
 }
