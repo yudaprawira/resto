@@ -272,7 +272,13 @@ function shareButton()
 function authLogin()
 {
 	$(document).on('click', '#btn-login-google', function(){
-		authGoogle();
+		authWith('google');
+		return false;
+	});
+
+	$(document).on('click', '#btn-login-facebook', function(){
+		alert('ok');
+		authWith('facebook');
 		return false;
 	});
 
@@ -372,13 +378,22 @@ function AddUpdateDate(table, postData)
 		}
 	});
 }
-function authGoogle()
+function authWith(type)
 {
 	if (!firebase.auth().currentUser) 
 	{
-		var provider = new firebase.auth.GoogleAuthProvider();
-		
-		provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+		if ( type=='google' )
+		{
+			var provider = new firebase.auth.GoogleAuthProvider();
+			
+			provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+		}
+		else if( type=='facebook' )
+		{
+			var provider = new firebase.auth.FacebookAuthProvider();
+			
+			provider.addScope('user_birthday');
+		}
 
 		firebase.auth().signInWithPopup(provider).then(function(result) {
 		
@@ -386,7 +401,7 @@ function authGoogle()
 
 			var user = result.user;
 
-			saveMember('google', user);
+			saveMember(type, user);
 			
 		}).catch(function(error) {
 			var errorCode = error.code;

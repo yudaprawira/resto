@@ -32,7 +32,7 @@ class FeController extends BaseController
         if ( val($input, 'data') )
         {
             $data = json_decode(val($input, 'data'), true);
-
+echoPre($data);
             switch( val($input, 'type') )
             {
                 case 'google':

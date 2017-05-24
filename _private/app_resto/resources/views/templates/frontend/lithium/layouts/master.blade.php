@@ -147,9 +147,9 @@
             <h4>LOGIN</h4>
             <div class="text-center" id="form-login" data-store="{{ url('membership/save') }}">
                 <h6>Silakan login untuk meanjutkan</h6>
-                <a hreff="#" id="btn-login-google">&nbsp;</a>
-                <a hreff="#" id="btn-login-facebook">&nbsp;</a>
-                <a hreff="#" id="btn-login-twitter">&nbsp;</a>
+                <a href="#" id="btn-login-google">&nbsp;</a>
+                <a href="#" id="btn-login-facebook">&nbsp;</a>
+                <a href="#" id="btn-login-twitter">&nbsp;</a>
             </div>
             <div class="close_popup_button">
                 <a href="#" class="close-popup"><img src="{{ $pub_url }}/png/menu_close.png" alt="" title=""></a>
