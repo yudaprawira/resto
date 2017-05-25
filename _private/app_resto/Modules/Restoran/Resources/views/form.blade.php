@@ -103,6 +103,19 @@
                 </div>
             </div>
 
+            <div class="box">
+                <div class="box-header with-border">
+                  <h3 class="box-title"> {{ trans('restoran::global.meja') }} </h3>
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                    <div class="form-group has-feedback">
+                        <label>{{ trans('restoran::global.jml_meja') }}</label><span class="char_count"></span>
+                        <input type="text" class="form-control tNum" name="meja[standart]" maxlength="5" value="{{ val(json_decode(val($dataForm, 'meja'), true), 'standart') }}" />
+                    </div>
+                </div>
+            </div>
+
+
         </div>
         <div class="col-md-8">
             <div class="box">

@@ -161,11 +161,8 @@
     <div class="popup popup-meja">
         <div class="content-block">
             <h4>PILIH MEJA</h4>
-            <div class="size_selectors text-center">   
-                @for( $i=1;$i<=24; $i++ )             
-                <input id="meja-{{$i}}" name="meja" value="meja-{{$i}}" type="radio">  
-                <label for="meja-{{$i}}" style="margin: 5px; padding: 30px 18px;">Meja {{$i}}</label>
-                @endfor
+            <div class="size_selectors text-center" id="statusMeja">   
+                <h1>LOADING...</h1>
             </div>
             <div class="close_popup_button">
                 <a href="#" class="close-popup"><img src="{{ $pub_url }}/png/menu_close.png" alt="" title=""></a>
@@ -201,6 +198,8 @@
 <script type="text/javascript" src="{{ $pub_url }}/js/audio.min.js"></script>
 <script type="text/javascript" src="{{ $pub_url }}/js/readmore.min.js"></script>
 <script type="text/javascript" src="{{ $pub_url }}/js/my-app.js"></script>
+<script type="text/javascript" src="{{ asset('/global/js/firebase.js') }}"></script>
+<script type="text/javascript" src="{{ asset('/global/js/firebase_resto.js') }}"></script>
 
 <script>
 if(window.location.href.indexOf('#!')<=0)

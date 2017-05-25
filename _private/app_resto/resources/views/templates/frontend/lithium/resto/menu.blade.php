@@ -40,7 +40,7 @@
                                 <input value="+" class="qntyplusshop" field="quantity-{{val($r, 'id')}}" type="button">
                             </form>
                         </div>
-                    <a href="#" class="addtocart" data-resto="{{val($row, 'url')}}" data-id="{{val($r, 'id')}}" data-url="{{ urlMenu($row, $r) }}" data-nama="{{val($r, 'nama')}}" data-harga="{{val($r, 'harga')}}" data-foto="{{ imgUrl($r->foto_utama, '200xauto') }}">PESAN</a>
+                    <a href="#" class="addtocart" data-resto="{{val($row, 'url')}}" data-meja="{{val($row, 'meja')}}" data-id="{{val($r, 'id')}}" data-url="{{ urlMenu($row, $r) }}" data-nama="{{val($r, 'nama')}}" data-harga="{{val($r, 'harga')}}" data-foto="{{ imgUrl($r->foto_utama, '200xauto') }}">PESAN</a>
                     <a href="{{ urlMenu($row, $r, 'share') }}" title="{{ val($r, 'nama') }}" data-popup=".popup-social" class="open-popup shopfav"><img src="{{ $pub_url }}/png/love-3.png" alt="" title=""></a>
                     </div>
                     </li> 

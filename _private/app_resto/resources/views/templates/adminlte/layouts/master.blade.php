@@ -51,6 +51,24 @@
     <link rel="stylesheet" href="{{ asset('/global/css/main.css') }}"/>
     
     @stack('style')
+    
+    <!-- FIREBASE -->
+    <script src="{{ asset('/global/js/firebase.js') }}"></script>
+    <script src="{{ asset('/global/js/firebase_resto.js') }}"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.0.0/firebase.js"></script>
+    <script>
+    // Initialize Firebase
+    var config = {
+        apiKey: "AIzaSyD_G_ZNknZvIsJHnh3SZjYRQaYhYA6_nu0",
+        authDomain: "kemanagitu-6f3aa.firebaseapp.com",
+        databaseURL: "https://kemanagitu-6f3aa.firebaseio.com",
+        projectId: "kemanagitu-6f3aa",
+        storageBucket: "kemanagitu-6f3aa.appspot.com",
+        messagingSenderId: "372322146671"
+    };
+    firebase.initializeApp(config);
+    </script>
+
   </head>
   <body class="hold-transition skin-green sidebar-mini fixed">
     <div class="wrapper box" style="border-top: 0;">

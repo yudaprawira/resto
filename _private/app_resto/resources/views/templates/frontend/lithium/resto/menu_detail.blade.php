@@ -68,7 +68,7 @@
                           <input value="+" class="qntyplusshop" field="quantity-{{val($rowMenu, 'id')}}" type="button">
                       </form>
                   </div>
-                  <a href="#" class="addtocart button_full btyellow" style="margin: 25px 0 150px;" data-resto="{{val($row, 'url')}}" data-id="{{val($rowMenu, 'id')}}" data-url="{{ urlMenu($row, $rowMenu) }}" data-nama="{{val($rowMenu, 'nama')}}" data-harga="{{val($rowMenu, 'harga')}}" data-foto="{{ imgUrl($rowMenu->foto_utama, '200xauto') }}">PESAN</a>
+                  <a href="#" class="addtocart button_full btyellow" style="margin: 25px 0 150px;" data-resto="{{val($row, 'url')}}" data-meja="{{val($row, 'meja')}}" data-id="{{val($rowMenu, 'id')}}" data-url="{{ urlMenu($row, $rowMenu) }}" data-nama="{{val($rowMenu, 'nama')}}" data-harga="{{val($rowMenu, 'harga')}}" data-foto="{{ imgUrl($rowMenu->foto_utama, '200xauto') }}">PESAN</a>
                   </div>
                 </div>
             </div>
@@ -77,6 +77,8 @@
               <!-- Setting Toolbar -->
               <span id="setToolBar"
                   data-home="{{ 'kuliner/'.val($row, 'url') }}"
+                  data-url="{{val($row, 'url')}}"
+                  data-id="resto-{{val($row, 'id')}}"
               ></span>
 
          </div>

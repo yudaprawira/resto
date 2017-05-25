@@ -17,12 +17,21 @@ class DashboardController extends BaseController
     
     function homepage()
     {
-        $this->dataView['totalMember'] = formatNumber(0);
-        $this->dataView['totalBook'] = formatNumber(0);
-        $this->dataView['totalRating'] = formatNumber(0);
-        $this->dataView['totalTransaksi'] = formatNumber(0);
+        switch(session::get('ses_level_name'))
+        {
+            case 'Resto - Pelayan';
+                return view($this->tmpl . 'dashboard.resto.pelayan', $this->dataView);
+            break;
+            default:
+                $this->dataView['totalMember'] = formatNumber(0);
+                $this->dataView['totalBook'] = formatNumber(0);
+                $this->dataView['totalRating'] = formatNumber(0);
+                $this->dataView['totalTransaksi'] = formatNumber(0);
+                
+                return view($this->tmpl . 'dashboard.default', $this->dataView);
+            break;
+        }
         
-        return view($this->tmpl . 'dashboard', $this->dataView);
     }
 
     function switchProfile($id)

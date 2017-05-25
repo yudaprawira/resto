@@ -36,6 +36,8 @@ return [
     'hari' => 'Hari',
     'buka' => 'Buka',
     'jam' => 'Jam',
+    'meja' => 'Meja',
+    'jml_meja' => 'Jumlah Nomor Meja',
     //kategori 
     'kategori_menu' => [
         'makanan-asia' => 'Makanan Asia',

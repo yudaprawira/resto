@@ -15,7 +15,7 @@ class Restoran extends Model
 
     protected $fillable = [
         'nama', 'foto_utama', 'foto', 'url', 'type', 'fasilitas', 'jam_operasional', 'deskripsi',
-        'kecamatan', 'kota', 'provinsi', 'kodepos', 'alamat', 'lokasi_lat', 'lokasi_lng', 'kategori',
+        'kecamatan', 'kota', 'provinsi', 'kodepos', 'alamat', 'lokasi_lat', 'lokasi_lng', 'kategori', 'meja',
         'kontak_bbm', 'kontak_telepon', 'kontak_wa', 'kontak_facebook', 'kontak_twitter', 'kontak_instagram', 
         'status', 'created_by', 'updated_by'
     ];

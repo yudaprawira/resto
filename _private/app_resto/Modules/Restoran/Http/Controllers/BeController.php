@@ -131,6 +131,7 @@ class BeController extends BaseController
         //multiple image & type
         $input['foto'] = isset($input['foto']) ? json_encode(array_filter($input['foto'])) : null;
         $input['type'] = isset($input['type']) ? json_encode(array_filter($input['type'])) : null;
+        $input['meja'] = isset($input['meja']) ? json_encode(array_filter($input['meja'])) : null;
         $input['kategori'] = isset($input['kategori']) ? json_encode(array_filter($input['kategori'])) : null;
         $input['jam_operasional'] = isset($input['jam_operasional']) ? json_encode(array_filter($input['jam_operasional'])) : null;
 

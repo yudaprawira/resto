@@ -2639,3 +2639,11 @@ pagination > li > a {
 .tableInfo td{
   padding: 5px;
 }
+.meja-terpakai label{
+  background: #DDD;
+  cursor: not-allowed
+}
+.meja-saya label {
+  background: #f20612;
+  color: #fff!important;
+}

@@ -102,7 +102,7 @@ class BaseController extends Controller
             session::put('ses_username', $obj->username);
             session::put('ses_useremail', $obj->email);
             session::put('ses_level_id', $obj->level_id);
-            session::put('ses_default_company', $obj->owner_id);
+            session::put('ses_default_company', $obj->pemilik_id);
             
             //get levelName
             $level = Level::where('id', $obj->level_id)->first();
