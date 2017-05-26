@@ -102,6 +102,10 @@
                         </tr>
                     </table>
                 </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default flat" data-dismiss="modal">Tutup</button>
+                    <button type="button" id="mod-meja-simpan" class="btn btn-primary flat">Simpan Perubahan</button>
+                </div>
                 </div>
             </div>
         </div>
@@ -135,8 +139,11 @@
 @endpush
 @push('scripts')
 <script>
+//buka popup modal
 $(document).on('click', '.list-meja .item', function(){
     var obj = jQuery.parseJSON(atob($(this).data('object')));
+    $('#mod-meja-id').attr('ori-id', obj.id);
+    $('#mod-meja-uid').attr('ori-uid', obj.user.id);
     $('#mod-meja-id').text('Meja '+ obj.id);
     $('#mod-meja-nama').val(obj.user.nama);
     $('#mod-meja-foto').attr('src', (obj.user.foto == '-'? '{{asset('/global/images/no-image.png')}}' : obj.user.foto ));
@@ -154,8 +161,73 @@ $(document).on('click', '.list-meja .item', function(){
         $('#mod-meja-status-tersedia').attr('checked', true);
         $('#mod-meja-status-tersedia').prop('checked', true);
     }
+    
+    $('#mod-meja-foto').attr('temp-src', null);
+    $('#mod-meja-nama').attr('temp-val', null);
+
+    if ( obj.user.nama=='Tamu' )
+    {
+        $('#mod-meja-nama').attr('disabled', false);
+    }
+    else
+    {
+        $('#mod-meja-nama').attr('disabled', true);
+    }
+    return false;
+});
+//Even tersedia/tidak
+$(document).on('change', '[name="mod-meja-status"]', function(){
+    var isTersedia = $(this).val()=='tersedia' ? true : false;
+    
+    if ( isTersedia )
+    {
+        //set temp
+        if ( !$('#mod-meja-foto').attr('temp-src') ) $('#mod-meja-foto').attr('temp-src', $('#mod-meja-foto').attr('src'));
+        if ( !$('#mod-meja-nama').attr('temp-val') ) $('#mod-meja-nama').attr('temp-val', $('#mod-meja-nama').val());
+
+        $('#mod-meja-foto').attr('src', '{{asset('/global/images/no-image.png')}}');
+        $('#mod-meja-nama').val('Tamu');
+    }
+    else
+    {
+        if ( $('#mod-meja-foto').attr('temp-src') ) $('#mod-meja-foto').attr('src', $('#mod-meja-foto').attr('temp-src'));
+        if ( $('#mod-meja-nama').attr('temp-val') ) $('#mod-meja-nama').val($('#mod-meja-nama').attr('temp-val'));
+    }
+
+});
+
+//simpan perubahan
+$(document).on('click', '#mod-meja-simpan', function(){
+    var resto = '{{val($active, 'url')}}';
+    var kategori = 'standart';
+    var isDipakai = $('[name="mod-meja-status"]:checked').val()=='tersedia' ? false : true;
+    
+    var type  = 'resto';
+    var table = type + '/' + resto + '/' + 'meja' + '/' + kategori;
+
+    var ref = firebase.database().ref().child(table);
+    ref.once('value', function(snapshot) {
+        snapshot.forEach(function(mejaSnapshot) {
+            var meja = mejaSnapshot.val();
+            if ( meja.id == $('#mod-meja-id').attr('ori-id'))
+            {
+                mejaSnapshot.ref.update({
+                    status : isDipakai ? "dipakai" : "tersedia",
+                    user : {
+                        id : $('#mod-meja-id').attr('ori-uid')  ? $('#mod-meja-id').attr('ori-uid') : '-',
+                        nama : $('#mod-meja-nama').val(),
+                        foto : !isDipakai ? '-' : $('#mod-meja-foto').attr('src'),
+                    }
+                });
+                $('#modalMeja').modal('hide');
+            }
+        });
+    });
+
+
 
     return false;
 });
+
 </script>
 @endpush
