@@ -27,7 +27,7 @@ function saveMember(type, data)
 	$.ajax({
 		type		: 'POST',
 		url			: $('#form-login').data('store'),
-		data        : 'type='+type+'&data='+JSON.stringify(data),
+		data        : "type="+type+"&data="+btoa(JSON.stringify(data)),
 		beforeSend	: function(xhr) { loading(1) },
 		success		: function(dt){
 			
