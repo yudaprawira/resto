@@ -84,13 +84,18 @@ ypFireBaseResto.prototype = {
                     var id = child.getKey();
                     var obj = child.val();
                     html += '<span class="'+(obj.status=='dipakai' ? (obj.member_id==member_id ? 'meja-saya' : 'meja-terpakai') : '')+'">'
-                            +'<input id="meja-'+id+'" data-resto="'+  resto +'" name="meja" class="pilih-meja" value="'+id+'" '+(obj.status=='dipakai' ? 'disabled=1' : '')+' type="radio">'
+                            +'<input id="meja-'+id+'" data-resto="'+  resto +'" name="meja" class="pilih-meja" value="'+id+'" '+(obj.status=='dipakai'&&obj.member_id!=member_id ? 'disabled=1' : '')+' type="radio">'
                             +'<label for="meja-'+id+'" style="margin: 5px; padding: 30px 15px;">Meja '+id+'</label>'
                         +'</span>';
 
                 });
             }
             $('#statusMeja').html(html);
+
+            if ( $('.meja-saya').length>0 )
+            {
+                $('.meja-saya .pilih-meja').change();
+            }
         });
     },
     setMeja: function(mejaID, memberID){
