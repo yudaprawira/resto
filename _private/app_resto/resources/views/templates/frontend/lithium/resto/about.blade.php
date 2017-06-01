@@ -14,7 +14,7 @@
 			<div class="navbar_right"><img src="{{ $pub_url }}/png/menu.png" alt="" title="" /></div>
 		</a>
     <a href="#" data-panel="right" class="open-panel">
-        <div class="navbar_right whitebg"><img src="{{ $pub_url }}/png/user.png" class="icon-user" src-online="{{ $pub_url }}/png/user_online.png" src-offline="{{ $pub_url }}/png/user.png"alt="" title="" /></div>
+        <div class="navbar_right whitebg"><img src="{{ $pub_url }}/png/{{ session::has('ses_feuserid') ? 'user_online' : 'user' }}.png" class="icon-user" src-online="{{ $pub_url }}/png/user_online.png" src-offline="{{ $pub_url }}/png/user.png"alt="" title="" /></div>
     </a>					
     <a href="#" data-panel="right" data-popup=".popup-pelayan" class="open-popup close-panel">
         <div class="navbar_right whitebg"><img src="{{ $pub_url }}/png/pelayan.png" class="icon-pelayan" src-online="{{ $pub_url }}/png/pelayan_online.png" src-offline="{{ $pub_url }}/png/pelayan.png" alt="" title="" /></div>
