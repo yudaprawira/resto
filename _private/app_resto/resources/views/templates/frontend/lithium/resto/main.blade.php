@@ -19,6 +19,7 @@
 	</div>
 						
      <div id="pages_maincontent">
+      <div id="dataMember" data-memberid="{{ session::get('ses_feuserid') }}" data-state="{{ val($row, 'url') }}"></div>
       
           <h2 class="page_title" style="color: #fff;">{{ val($row, 'nama') }}</h2>
 			  
@@ -50,7 +51,6 @@
 							</nav>
 			            
          </div>
-      
       </div>
       
       

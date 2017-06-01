@@ -86,6 +86,7 @@ class BaseController extends Controller
             $this->dataView['footer'] = $this->_buildFooter();
             $this->dataView['control'] = $this->_buildControl();
             $this->dataView['breadcrumb'] = $this->rowBreadcrumbs ? array_reverse($this->rowBreadcrumbs) : [];
+            $this->dataView['active_state'] = val(session::get('ses_switch_to'), session::get('ses_switch_active'));
         }
     }
     
@@ -102,12 +103,14 @@ class BaseController extends Controller
             session::put('ses_username', $obj->username);
             session::put('ses_useremail', $obj->email);
             session::put('ses_level_id', $obj->level_id);
+            session::put('ses_photo', ($obj->image ? imgUrl($obj->image) : asset('/global/images/no-image.png') ));
             session::put('ses_default_company', $obj->pemilik_id);
             
             //get levelName
             $level = Level::where('id', $obj->level_id)->first();
 
             session::put('ses_level_name', $level->name);
+            session::put('ses_level_url', str_slug($level->name));
             session::put('ses_is_superadmin', (str_slug($level->name)=='super-admin' ? true : false));
 
             //get level menu access

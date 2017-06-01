@@ -20,6 +20,7 @@
 	<link rel="stylesheet" href="{{ $pub_url }}/css/style.css">
 	<link type="text/css" rel="stylesheet" href="{{ $pub_url }}/css/swipebox.css" />
 	<link type="text/css" rel="stylesheet" href="{{ $pub_url }}/css/animations.css" />
+	<link type="text/css" rel="stylesheet" href="{{ $pub_url }}/css/sweetalert.css" />
     <link rel="stylesheet" href="{{ asset('/global/css/social-buttons.css') }}"/>
 	<link href='http://fonts.googleapis.com/css?family=Roboto:400,300,900' rel='stylesheet' type='text/css'>
     <style>
@@ -141,12 +142,23 @@
 		</div>
     </div>
 
+    <!-- Pelayan Popup -->
+    <div class="popup popup-pelayan">
+		<div class="content-block">
+		<h4>PELAYAN</h4>
+		<div id="list-pelayan">
+            <h5 style="text-align: center;">Tidak ada pelayan yang online</h5>
+        </div>
+		<div class="close_popup_button"><a href="#" class="close-popup"><img src="{{ $pub_url }}/png/menu_close.png" alt="" title="" /></a></div>
+		</div>
+    </div>
+
     <!-- LOGIN -->
     <div class="popup popup-login">
         <div class="content-block">
             <h4>LOGIN</h4>
-            <div class="text-center" id="form-login" data-store="{{ url('membership/save') }}">
-                <h6>Silakan login untuk meanjutkan</h6>
+            <div class="text-center" id="form-login" data-store="{{ url('membership/save') }}" data-ping="{{ url('membership/ping') }}" data-logout="{{ url('membership/logout') }}">
+                <h6>Silakan login untuk melanjutkan</h6>
                 <a href="#" id="btn-login-google">&nbsp;</a>
                 <a href="#" id="btn-login-facebook">&nbsp;</a>
                 <a href="#" id="btn-login-twitter">&nbsp;</a>
@@ -197,9 +209,10 @@
 <script type="text/javascript" src="{{ $pub_url }}/js/email.js"></script>
 <script type="text/javascript" src="{{ $pub_url }}/js/audio.min.js"></script>
 <script type="text/javascript" src="{{ $pub_url }}/js/readmore.min.js"></script>
+<script type="text/javascript" src="{{ $pub_url }}/js/sweetalert.min.js"></script>
+<script type="text/javascript" src="{{ asset('/global/js/ypfirebase.js') }}"></script>
+<script type="text/javascript" src="{{ asset('/global/js/ypfirebaseresto.js') }}"></script>
 <script type="text/javascript" src="{{ $pub_url }}/js/my-app.js"></script>
-<script type="text/javascript" src="{{ asset('/global/js/firebase.js') }}"></script>
-<script type="text/javascript" src="{{ asset('/global/js/firebase_resto.js') }}"></script>
 
 <script>
 if(window.location.href.indexOf('#!')<=0)

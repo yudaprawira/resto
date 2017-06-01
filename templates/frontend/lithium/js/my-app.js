@@ -13,6 +13,7 @@ var myApp = new Framework7({
 
 // Export selectors engine
 var $$ = Dom7;
+var ypAuth = new ypFireBase();
 
 // Add main View
 var mainView = myApp.addView('.view-main', {
@@ -27,15 +28,42 @@ $(document).ready(function() {
 		$("label.error").hide();
 	});
 
-	authLogin();
+	//registering button
+	$(document).on('click', '#btn-login-google', function(){
+		ypAuth.auth('google'); return false;
+	});
+	$(document).on('click', '#btn-login-twitter', function(){
+		ypAuth.auth('twitter'); return false;
+	});
+	$(document).on('click', '#btn-login-facebook', function(){
+		ypAuth.auth('facebook'); return false;
+	});
+	$(document).on('click', '#act-logout', function(){
+		ypAuth.auth('logout'); return false;
+	});
 
 	shareButton();
 
 	$(document).on('change', '.pilih-meja', function(){
+		var member_id = $('#dataMember').attr('data-memberid');
 		var resto = $(this).data('resto');
-		createCookie(resto + '-meja', $(this).val());
-        updateMejaUser(resto, parseInt($(this).val()), 'standart');
-        //myApp.closeModal('.popup-meja');
+
+		if ( member_id && resto )
+		{
+			var ypResto = new ypFireBaseResto(resto, 'meja');
+
+			ypResto.setMeja(parseInt($(this).val()), member_id);
+			myApp.closeModal('.popup-meja');
+
+			$('body').attr('resto-'+resto, 'meja-'+$(this).val());
+				
+			swal({
+				title: "NOMOR "+($(this).closest('span').find('label').text()).toUpperCase(),
+				type : "success",
+				html : true,
+				text : '<a href="#" onclick="myApp.popup(\'.popup-meja\'); swal.close(); return false;">Ganti nomor meja</a>',
+			});
+		}
 	});
 });
 
@@ -49,6 +77,39 @@ $$(document).on('pageInit', function (e) {
 	if ( $('#setToolBar').length>0 )
 	{
 		initToolBar($('#setToolBar'));
+	}
+
+	//MEMBER
+	if ( $('#dataMember').attr('data-memberid') )
+	{
+		var member_id = $('#dataMember').attr('data-memberid');
+		var state_active = $('#dataMember').attr('data-state');
+		
+		if ( member_id )
+		{
+			var ypUser = new ypFireBase("member");
+				ypUser.offline(member_id).update({'online':false});
+
+				if ( !$('body').attr('member-online') )
+				{
+					ypUser.online(member_id);
+					ypUser.memberOnline();
+					$('body').attr('member-online', true);
+					$('.icon-user').attr('src', $('.icon-user').attr('src-online'));
+				}
+
+			//cek pelayan online
+			if ( state_active )
+			{
+				 var ypPelayan = new ypFireBaseResto(state_active, "user/resto-pelayan");
+				 	 ypPelayan.statusPelayan();
+			}
+		}
+		else
+		{
+			$('body').removeAttr('member-online');
+			$('.icon-user').attr('src', $('.icon-user').attr('src-offline'));
+		}
 	}
 })
 
@@ -94,17 +155,83 @@ myApp.onPageInit('shop', function (page) {
 	$(".addtocart").click(function(e){
 		e.preventDefault();
 
-		if ( !firebase.auth().currentUser )
+		var resto = $(this).data('resto');
+		var member_id = $('#dataMember').attr('data-memberid') ? $('#dataMember').attr('data-memberid') : null;
+				
+		//cek member online
+		if ( $('body').attr('member-online') )
 		{
-			myApp.popup('.popup-login');
-		}
-		else if ( !readCookie($(this).data('resto')+'-meja') )
-		{
-			statusMeja($(this));
+			//cek pelayan
+			if (!$('body').attr('pelayan-'+resto) )
+			{
+				swal({
+					title: "TIDAK DAPAT DILANJUTKAN",
+					type : "error",
+					text : 'Mohon maaf, saat ini tidak ada pelayang yang online. Silakan kembali lagi dalam beberapa menit',
+					closeOnConfirm: false,
+					showLoaderOnConfirm: true,
+				},
+				function(){
+					setTimeout(function(){
+						if (!$('body').attr('pelayan-'+resto) )
+						{
+							swal.close();
+						}
+						else
+						{
+							swal({
+								title: "PELAYAN ONLINE",
+								type : "success",
+								text : 'Silakan melanjutkan pesanan Anda.'
+							})
+						}
+					}, 2000);
+				});
+
+				return false;
+			}
+
+			//cek meja
+			if (!$('body').attr('resto-'+resto) )
+			{
+				if ( member_id )
+				{
+					var ypMember = new ypFireBase('member');
+					var rowUser = ypMember.get(member_id);
+
+					rowUser.once('value', function (snapshot) {
+						if ( snapshot.numChildren()>0 )
+						{
+							if ( snapshot.val().nama )
+							{
+								var ypMeja = new ypFireBaseResto(resto, 'meja');
+								ypMeja.viewMeja(member_id);
+							}
+							else
+							{
+								myApp.popup('.popup-login');	
+							}
+						}
+						else
+						{
+							myApp.popup('.popup-login');
+						}
+					});
+				}
+				else
+				{
+					myApp.popup('.popup-login');
+				}
+
+			}
+			else
+			{
+				alert('update pesanan');
+			}
 		}
 		else
 		{
-			updatePesanan($(this));
+			myApp.popup('.popup-login');
 		}
 	});  
 })
@@ -143,4 +270,59 @@ function shareButton()
 		$('#url-share-twitter').attr('href', url_twitter);
 		$('#url-share-google').attr('href', url_google);
 	});
+}
+
+//MAP
+function initMap(target)
+{
+	 var map = new google.maps.Map(
+        document.getElementById(target.attr('id')), {
+          center: new google.maps.LatLng(target.data('lat'), target.data('lng')),
+          zoom: 16,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+      });
+
+      var marker = new google.maps.Marker({
+            position: new google.maps.LatLng(target.data('lat'), target.data('lng')),
+            map: map
+      });
+
+	  var infowindow = new google.maps.InfoWindow({
+          content: target.data('info')
+      });
+
+	  infowindow.open(map, marker);
+
+	  marker.addListener('click', function() {
+          infowindow.open(map, marker);
+      });
+
+	  	//get location
+		/*if (navigator.geolocation) {
+			var currentPosition = null;
+			navigator.geolocation.getCurrentPosition(function(position) {
+
+				var directionsDisplay = new google.maps.DirectionsRenderer;
+		        var directionsService = new google.maps.DirectionsService;
+				directionsDisplay.setMap(map);
+
+				
+				directionsService.route({
+				origin: {lat: position.coords.latitude, lng: position.coords.longitude},
+				destination: {lat: target.data('lat'), lng: target.data('lng')},
+				// Note that Javascript allows us to access the constant
+				// using square brackets and a string value as its
+				// "property."
+				travelMode: google.maps.TravelMode['DRIVING']
+				}, function(response, status) {
+				if (status == 'OK') {
+					directionsDisplay.setDirections(response);
+				} else {
+					window.alert('Directions request failed due to ' + status);
+				}
+				});
+
+			});
+		}*/
+	  
 }

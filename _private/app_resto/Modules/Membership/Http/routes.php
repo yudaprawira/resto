@@ -18,6 +18,8 @@ Route::group(['middleware' => 'web', 'prefix' => config('app.backend').'/'.$info
 Route::group(['middleware'=>'cached', 'prefix' => $info['alias'], 'namespace' => 'Modules\Membership\Http\Controllers'], function()
 {
     Route::get('/', 'FeController@index');
-    Route::post('/save', 'FeController@save')->where('url', '[a-z0-9\-\_\+]+');
+    Route::get('/logout', 'FeController@logout');
+    Route::post('/save', 'FeController@save');
+    Route::post('/ping', 'FeController@ping');
     Route::get('/{url}.html', 'FeController@index')->where('url', '[a-z0-9\-\_\+]+');
 });

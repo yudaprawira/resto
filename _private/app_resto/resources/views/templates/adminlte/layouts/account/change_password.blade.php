@@ -21,7 +21,7 @@
           </div>
           <div class="row">
             <div class="col-xs-8">
-              <a href="{{ config('app.url') }}" class="btn btn-default btn-flat">{{ Lang::get('passwords.btn_chancel') }}</a>
+              <a href="{{ BeUrl() }}" class="btn btn-default btn-flat">{{ Lang::get('passwords.btn_chancel') }}</a>
             </div><!-- /.col -->
             <div class="col-xs-4">
               <input type="hidden" name="_token" value="{{csrf_token()}}"/>  

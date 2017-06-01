@@ -1,3 +1,4 @@
+/** MEJA **/
 function statusMeja(dataResto)
 {
 	myApp.popup('.popup-meja');
@@ -76,6 +77,9 @@ function updateMejaUser(resto, id, kategori)
     });
     updateMeja(resto, id, kategori, true);
 }
+/** EOF MEJA **/
+
+
 function updatePesanan(elmn)
 {
     var postData = {

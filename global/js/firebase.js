@@ -24,10 +24,18 @@ function authLogin()
 }
 function saveMember(type, data)
 {
+	var rowData = {
+		'id' : data.providerData[0].uid,
+		'nama' : data.providerData[0].displayName,
+		'foto' : data.providerData[0].photoURL,
+		'email' : data.email ? data.email : data.providerData[0].email,
+		'type' : type,
+	};
+
 	$.ajax({
 		type		: 'POST',
 		url			: $('#form-login').data('store'),
-		data        : "type="+type+"&data="+btoa(JSON.stringify(data)),
+		data        : rowData,
 		beforeSend	: function(xhr) { loading(1) },
 		success		: function(dt){
 			
@@ -91,4 +99,36 @@ function authWith(type)
 	{
 		saveMember(type, firebase.auth().currentUser);
 	}
+}
+
+function getDataByID(table, key, value)
+{
+	var ref = firebase.database().ref().child(table);
+	var refId = ref.orderByChild(key).equalTo(value);
+	refId.once('value', function (snapshot) {
+		console.log(snapshot.val());
+	});
+}
+
+function userConnect(table, id, nama, photo,)
+{
+	var rowUser = {
+        id : id,
+        nama : nama,
+        foto : photo,
+		online : false
+    };
+
+	var connectedRef = firebase.database().ref(".info/connected");
+	connectedRef.on("value", function(snap) {
+		if (snap.val() === true) {
+			rowUser.online = true;
+			//update user state
+			AddUpdateDate(table, rowUser);
+		} else {
+			rowUser.online = false;
+			//update user state
+			AddUpdateDate(table, rowUser);
+		}
+	});
 }

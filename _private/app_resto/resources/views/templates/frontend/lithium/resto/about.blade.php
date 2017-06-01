@@ -19,6 +19,7 @@
 	</div>
 						
      <div id="pages_maincontent">
+      <div id="dataMember" data-memberid="{{ session::get('ses_feuserid') }}" data-state="{{ val($row, 'url') }}"></div>
       
           <h2 class="page_title">{{ val($row, 'nama') }} | Informasi</h2>
 			  

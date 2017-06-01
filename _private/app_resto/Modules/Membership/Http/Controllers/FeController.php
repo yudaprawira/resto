@@ -2,7 +2,7 @@
 
 namespace Modules\Membership\Http\Controllers;
 
-use Redirect, Input,
+use Redirect, Input, Session,
     Illuminate\Http\Request,
     Illuminate\Http\Response,
     Illuminate\Routing\Controller,
@@ -29,40 +29,39 @@ class FeController extends BaseController
     {
         $input  = Input::except('_token');
 
-        if ( val($input, 'data') )
+        if ( val($input, 'id') )
         {
-            $dataPost = json_decode(base64_decode(val($input, 'data')), true);
+            $data = [
+                'nama' => ucwords(trim(val($input, 'nama'))),
+                'email' => strtolower(trim(val($input, 'email'))),
+                'foto' => trim(val($input, 'foto')),
+            ];
 
-            switch( val($input, 'type') )
+            if ( val($input, 'type')=='google' ) $sosMedId = 'google_id';
+            if ( val($input, 'type')=='twitter' ) $sosMedId = 'twitter_id';
+            if ( val($input, 'type')=='facebook' ) $sosMedId = 'facebook_id';
+
+            $data[$sosMedId] = val($input, 'id');
+
+            if ( Session::has('ses_feuserid') )
             {
-                case 'google':
-                case 'twitter':
-                case 'facebook':
+                $rowUser = Membership::where('id', Session::get('ses_feuserid'));
+            }
+            else
+            {
+                $rowUser = Membership::where($sosMedId, $data[$sosMedId])->orWhere('email', $data['email']);
+            }
 
-                    $data = [
-                        'nama' => ucwords(trim(val($dataPost, 'displayName'))),
-                        'email' => val($dataPost, 'email') ? val($dataPost, 'email') : val($dataPost, 'providerData.0.email'),
-                        'foto' => val($dataPost, 'providerData.0.photoURL'),
-                    ];
+            //add update
+            if ( $user = $rowUser->first())
+            {
+                Membership::where('id', $user->id)->update($data);
+            }
+            else
+            {
+                $userID = Membership::insertGetId($data);
 
-                    if ( val($input, 'type')=='google' ) $sosMedId = 'google_id';
-                    if ( val($input, 'type')=='twitter' ) $sosMedId = 'twitter_id';
-                    if ( val($input, 'type')=='facebook' ) $sosMedId = 'facebook_id';
-
-                    $data[$sosMedId] = val($dataPost, 'providerData.0.uid');
-
-                    //add update
-                    if ( $user = Membership::where($sosMedId, $data[$sosMedId])->orWhere('email', $data['email'])->first())
-                    {
-                        Membership::where('id', $user->id)->update($data);
-                    }
-                    else
-                    {
-                        $userID = Membership::insertGetId($data);
-
-                        $user = Membership::where('id', $userID)->first();
-                    }
-                break;
+                $user = Membership::where('id', $userID)->first();
             }
         }
 
@@ -70,7 +69,55 @@ class FeController extends BaseController
         {
             $this->dataView['row'] = $user;
 
-            return view($this->tmpl . 'box.account', $this->dataView);
+            $this->_setSessionLogin($user);
+
+            $dataUser = [
+                val($user, 'id') => [
+                    'nama' => val($user, 'nama'),
+                    'foto' => val($user, 'foto'),
+                    'online' => true,
+                    'last_online' => dateSQL(),
+                ]
+            ];
+
+            return Response()->json([ 
+                'data_user'=> $dataUser,
+                'response' => view($this->tmpl . 'box.account', $this->dataView)
+            ]);
         }
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Periksa Membership
+    |--------------------------------------------------------------------------
+    */
+    public function ping()
+    {
+        if ( session::has('ses_feuserid') )
+        {
+            $this->dataView['row'] = Membership::where('id',  session::get('ses_feuserid'))->first();
+
+            $dataUser = [
+                'title' => val($this->dataView['row'], 'nama'),
+                'text' => trans('member::global.welcome'),
+                'imageUrl' => val($this->dataView['row'], 'foto'),
+            ];
+
+            return Response()->json([ 
+                'data_user'=> $dataUser,
+                'response' => htmlentities(view($this->tmpl . 'box.account', $this->dataView))
+            ]);
+        }
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Logout Membership
+    |--------------------------------------------------------------------------
+    */
+    public function logout()
+    {
+        Session::flush();
     }
 }

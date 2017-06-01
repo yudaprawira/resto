@@ -53,8 +53,6 @@
     @stack('style')
     
     <!-- FIREBASE -->
-    <script src="{{ asset('/global/js/firebase.js') }}"></script>
-    <script src="{{ asset('/global/js/firebase_resto.js') }}"></script>
     <script src="https://www.gstatic.com/firebasejs/4.0.0/firebase.js"></script>
     <script>
     // Initialize Firebase
@@ -68,7 +66,6 @@
     };
     firebase.initializeApp(config);
     </script>
-
   </head>
   <body class="hold-transition skin-green sidebar-mini fixed">
     <div class="wrapper box" style="border-top: 0;">
@@ -165,10 +162,18 @@
     <script src="{{ asset('/global/js/main.js') }}"></script>
     <!-- iCheck -->
     <script src="{{ $pub_url }}/plugins/iCheck/icheck.min.js"></script>
+    <script src="{{ asset('/global/js/ypfirebase.js') }}"></script>
+    <script src="{{ asset('/global/js/ypfirebaseresto.js') }}"></script>
     
     <!-- CUSTOM JS -->
     <script>
         <?= packerJs("
+
+        var ypUser = new ypFireBase('resto/".val($active_state, 'url')."/user/".(session::get('ses_level_url'))."/');
+
+        //PELAYAN NOT ONLINE
+        ypUser.offline(".session::get('ses_userid').").update({'online':false});
+
         $(function() {    
             if ( $('#list-table').length>0 || $('.form-ajax').length>0 )
             {

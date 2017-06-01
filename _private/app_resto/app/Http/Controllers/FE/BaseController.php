@@ -39,6 +39,21 @@ class BaseController extends Controller
             'pub_url'=> url(str_replace('.', '/', config('app.template')))
         ];
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | User Set Session
+    |--------------------------------------------------------------------------
+    */
+    public function _setSessionLogin($obj)
+    {
+        if ( $obj )
+        {
+            session::put('ses_feuserid', $obj->id);
+            session::put('ses_feusername', $obj->nama);
+            session::put('ses_feuserfoto', $obj->foto);
+        }
+    }
     
     /*
     |--------------------------------------------------------------------------
