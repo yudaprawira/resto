@@ -82,7 +82,7 @@ class FeController extends BaseController
 
             return Response()->json([ 
                 'data_user'=> $dataUser,
-                'response' => view($this->tmpl . 'box.account', $this->dataView)
+                'response' => htmlentities(view($this->tmpl . 'box.account', $this->dataView))
             ]);
         }
     }

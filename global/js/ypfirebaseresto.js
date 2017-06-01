@@ -15,6 +15,10 @@ ypFireBaseResto.prototype = {
     {
         return this.yp.get(id);
     },
+    update: function(id, data)
+    {
+        return this.yp.update(id, data);
+    },
     getMejaMember: function(member_id)
     {
         return this.yp.get().orderByChild("member_id").equalTo(member_id);

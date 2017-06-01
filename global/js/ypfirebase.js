@@ -104,19 +104,12 @@ ypFireBase.prototype = {
             beforeSend	: function(xhr) { loading(1) },
             success		: function(dt){
                 
-                if(dt.response) $('.user_login_info').replaceWith(dt.response);
-
                 var ypUser = new ypFireBase("member");
 
                 //DATA MEMBER
                 ypUser.insert(dt.data_user);
 
-                var memberID = 0;
-                for( k in dt.data_user)
-                {
-                    memberID = k;
-                }
-                $('#dataMember').attr('data-memberid', memberID);
+                window.location.reload();
             },
         }).done(function(){ loading(0); myApp.closeModal('.popup-login'); });
     },

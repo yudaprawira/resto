@@ -55,10 +55,10 @@ $(document).ready(function() {
 			ypResto.setMeja(parseInt($(this).val()), member_id);
 			myApp.closeModal('.popup-meja');
 
-			$('body').attr('resto-'+resto, 'meja-'+$(this).val());
+			$('body').attr('resto-'+resto, $(this).val());
 				
 			swal({
-				title: "NOMOR "+($(this).closest('span').find('label').text()).toUpperCase(),
+				title: ($(this).closest('span').find('label').text()).toUpperCase(),
 				type : "success",
 				html : true,
 				text : '<a href="#" onclick="myApp.popup(\'.popup-meja\'); swal.close(); return false;">Ganti nomor meja</a>',
@@ -109,6 +109,19 @@ $$(document).on('pageInit', function (e) {
 		{
 			$('body').removeAttr('member-online');
 			$('.icon-user').attr('src', $('.icon-user').attr('src-offline'));
+		}
+
+		//update meja
+		if ( state_active && $('body').attr('resto-'+state_active))
+		{
+			var ypResto = new ypFireBaseResto(state_active, "meja");
+				ypMeja  = ypResto.getMeja($('body').attr('resto-'+state_active));
+				ypMeja.on('value', function(snapshot){
+					if ( snapshot.val().member_id!=member_id ) 
+					{
+						$('body').removeAttr('resto-'+state_active);
+					}
+				});
 		}
 	}
 })

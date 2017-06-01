@@ -52,7 +52,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default flat" data-dismiss="modal">Tutup</button>
-                    <button type="button" id="mod-meja-simpan" class="btn btn-primary flat">Simpan Perubahan</button>
+                    <button type="button" id="mod-meja-simpan" class="btn btn-primary flat" data-dismiss="modal">Simpan Perubahan</button>
                 </div>
                 </div>
             </div>
@@ -246,7 +246,19 @@ $(document).ready(function(){
     //simpan
     $(document).on('click', '#mod-meja-simpan', function(){
         var mejaID = $(this).attr('meja-id');
-        alert(mejaID);
+        var ypResto = new ypFireBaseResto('{{val($active_state, 'url')}}', 'meja/');
+
+        var data = {
+            'status' : $('[name="mod-meja-status"]:checked').val(),
+            'waktu'  : $('[name="mod-meja-status"]').val() == 'dipakai' ? '{{dateSQL()}}' : ''
+        };
+
+        if ( data.status == 'tersedia' )
+        {
+            data.member_id = '-';
+        }
+        
+        ypResto.update(mejaID, data);
     });
 
     //DATA PELAYAN
