@@ -6,7 +6,7 @@
  * @package  Laravel
  * @author   Taylor Otwell <taylorotwell@gmail.com>
  */
-$script = __DIR__.'/_private/app_resto/';
+$script = __DIR__.'/_private/app_juned/';
 /*
 |--------------------------------------------------------------------------
 | Register The Auto Loader
@@ -35,9 +35,10 @@ require $script.'/bootstrap/autoload.php';
 
 $app = require_once $script.'/bootstrap/app.php';
 
-$app->bind('path.public', function() {
+/*$app->bind('path.public', function() {
     return __DIR__;
-});
+});*/
+
 
 /*
 |--------------------------------------------------------------------------
