@@ -45,7 +45,7 @@ function imgUrl($path, $size='')
         $path    = str_replace($oriSize, $size, $path);
     }
 
-    return url('media/'.$path);
+    return config('app.media_url').$path;
 }
 
 

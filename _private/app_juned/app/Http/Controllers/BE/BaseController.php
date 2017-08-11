@@ -425,7 +425,7 @@ class BaseController extends Controller
             {
                 if ( $old->$k!=$v && $k!='updated_at')
                 {
-                    $ret[] = trans('log.update_field', ['old'=>$old[$k], 'new'=>$v]);
+                    $ret[] = trans('log.update_field', ['k'=>$k, 'old'=>$old[$k], 'new'=>$v]);
                 }
             }
         }        

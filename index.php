@@ -7,6 +7,9 @@
  * @author   Taylor Otwell <taylorotwell@gmail.com>
  */
 $script = __DIR__.'/_private/app_juned/';
+
+define('MEDIA_DIR', __DIR__.'/media/');
+
 /*
 |--------------------------------------------------------------------------
 | Register The Auto Loader

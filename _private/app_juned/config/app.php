@@ -1,12 +1,12 @@
 <?php
 
-$baseUrl = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'].'/'.(explode('/', $_SERVER['PHP_SELF'])[1]);
+//$baseUrl = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'].'/'.(explode('/', $_SERVER['PHP_SELF'])[1]);
+
+$baseUrl = 'http://localhost/apt/';
 
 return [
     
-    'title' => 'Sistem Pelayanan Jasa Perbaikan',
-    
-    'prefix' => 'rssa:', //generate QrCOde
+    'title' => 'Aplikasi Pelayanan Teknik',
     
 
     /*
@@ -53,6 +53,10 @@ return [
     'backend' => '',
     
     'be_url' => $baseUrl.'',
+
+    'media_url' => $baseUrl.'media/',
+    
+    'media_dir' => MEDIA_DIR,
 
     /*
     |--------------------------------------------------------------------------
